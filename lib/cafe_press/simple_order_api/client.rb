@@ -3,19 +3,19 @@ module CafePress
     class Client
       attr_accessor :partner_id
 
-
       def initialize(partner_id)
         @partner_id = partner_id
       end
 
-      def fulfill(order_id, shipping_address, line_items, options = {})
+      def create_order(order_id, shipping_address, line_items, options = {})
+        OrderRequest.create_order(order_id, shipping_address, line_items, options)
+      end
+
+      def get_order_status(order_id)
 
       end
 
-      def check_order_status(order_id)
-      end
-
-      def fetch_tracking_data(order_ids, options = {})
+      def get_shipping_info(order_ids, options = {})
 
       end
 
