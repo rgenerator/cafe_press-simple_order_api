@@ -5,7 +5,7 @@ require 'cafe_press/simple_order_api'
 
 Gem::Specification.new do |spec|
   spec.name          = "cafe_press-simple_order_api"
-  spec.version       = CafePress::SimpleOrderApi::VERSION
+  spec.version       = CafePress::SimpleOrderAPI::VERSION
   spec.authors       = ["relentlessGENERATOR"]
   spec.email         = ["dev@rgenerator.com"]
   spec.summary       = %q{CafePress Simple Order API client}
