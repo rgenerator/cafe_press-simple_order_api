@@ -1,3 +1,4 @@
+require 'savon'
 require 'rexml/document'
 
 module CafePress
@@ -11,11 +12,11 @@ module CafePress
           @partner_id = partner_id
         end
 
-        def create_order(order, shipping_address, line_items, options = {})
-          @order = order
-          @shipping_address = shipping_address
-          @line_items = line_items
+        def create_order(order_hash, options = {})
           @options = options
+          client = Savon.client(wsdl: end_point, log_level: :info, log: true)
+          client.config.pretty_print_xml = true
+          client.call(:create_order, :message => :order_hash)
         end
 
         def cancel_order(order_id)
@@ -26,22 +27,13 @@ module CafePress
 
         end
 
-        protected
-
-        def build_create_order_xml
-          xml = Builder.new
-          xml.instruct!
-          xml.partnerid = @partner_id
-          xml.ord { build_order_xml(xml) }
-          xml.target!
-        end
-
-        def build_order_xml(xml)
-          xml.ord do
-            xml.order_total = @order.
+        def end_point
+          if @options[:live]
+            CafePress::SimpleOrderAPI::LIVE_ENDPOINT
+          else
+            CafePress::SimpleOrderAPI::TEST_ENDPOINT
           end
         end
-
       end # end for class OrderRequest
     end # end for module Client
   end # end for module SimpleOrderAPI

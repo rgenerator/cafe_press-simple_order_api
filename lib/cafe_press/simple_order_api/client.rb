@@ -11,8 +11,8 @@ module CafePress
         @partner_id = partner_id
       end
 
-      def create_order(order_id, shipping_address, line_items, options = {})
-        Client::OrderRequest.new(@partner_id).create_order(order_id, shipping_address, line_items, options)
+      def create_order(order_hash, options = {})
+        Client::OrderRequest.new(@partner_id).create_order(order_hash, options)
       end
 
       def get_order_status(order_id)
