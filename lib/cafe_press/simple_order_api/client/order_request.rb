@@ -16,7 +16,7 @@ module CafePress
           @options = options
           client = Savon.client(wsdl: end_point, log_level: :info, log: true)
           client.config.pretty_print_xml = true
-          client.call(:create_order, :message => :order_hash)
+          client.call(:create_order, :message => :order_hash, :convert_request_keys_to :camelcase)
         end
 
         def cancel_order(order_id)

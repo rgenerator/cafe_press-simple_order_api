@@ -1,6 +1,6 @@
 require 'cafe_press/simple_order_api'
 require 'cafe_press/simple_order_api/client/order_request'
-require 'cafe_press/simple_order_api/client/shipping_request'
+require 'cafe_press/simple_order_api/client/shipment_request'
 
 module CafePress
   module SimpleOrderAPI
