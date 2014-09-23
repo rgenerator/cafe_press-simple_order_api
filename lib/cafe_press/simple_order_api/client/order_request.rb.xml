@@ -1,0 +1,41 @@
+def build_create_order_xml
+          xml = Builder.new
+          xml.instruct!
+          xml.partnerid = @partner_id
+          xml.ord { build_order_xml(xml) }
+          xml.target!
+        end
+
+        def build_order_xml(xml)
+          xml.ord do
+            xml.shipping_cost = @order[:shipping_cost]
+            xml.tax = @order[:tax]
+            xml.order_total = @order[:order_total]
+            xml.service_level_no = @order[:service_level_no]
+            xml.carrier_override_no = @order[:carrier_override_no]
+            build_shipping_address(xml)
+            build_order_items(xml)
+          end
+        end
+
+        def build_shipping_address(xml)
+          xml.shipping_address do
+            xml.name = @shipping_address[:name]
+            xml.address_line1 = @shipping_address[:address_line1]
+            xml.address_line2 = @shipping_address[:address_line2]
+            xml.shipping_city = @shipping_address[:shipping_city]
+            xml.state = @shipping_address[:state]
+            xml.postal_code = @shipping_address[:postal_code]
+            xml.phone_no = @shipping_address[:phone_no]
+          end
+        end
+
+        def build_order_items(xml)
+          @line_items.each_with_index do |line_item, index|
+            xml.order_items[index].price = line_item[:price]
+            xml.order_items[index].size_no = line_item[:price]
+            xml.order_items[index].color_no = line_item[:color_no]
+            xml.order_items[index].quantity = line_item[:quantity]
+            xml.order_items[index].product_id = line_item[:product_id]
+          end
+        end
