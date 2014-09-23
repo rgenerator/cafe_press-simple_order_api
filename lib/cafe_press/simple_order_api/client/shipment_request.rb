@@ -1,6 +1,6 @@
 module CafePress
   module SimpleOrderAPI
-    module Client
+    class Client
       class ShipmentRequest
 
         def get_shipment_info(order_ids, options = {})
