@@ -8,7 +8,7 @@ module CafePress
       end
 
       def create_order(order_id, shipping_address, line_items, options = {})
-        OrderRequest.create_order(order_id, shipping_address, line_items, options)
+        Client::OrderRequest.create_order(order_id, shipping_address, line_items, options)
       end
 
       def get_order_status(order_id)
