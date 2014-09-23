@@ -1,3 +1,7 @@
+require 'cafe_press/simple_order_api'
+require 'cafe_press/simple_order_api/client/order_request'
+require 'cafe_press/simple_order_api/client/shipping_request'
+
 module CafePress
   module SimpleOrderAPI
     class Client
@@ -12,11 +16,15 @@ module CafePress
       end
 
       def get_order_status(order_id)
+        Client::OrderRequest.get_status(order_id, shipping_address, line_items, options)
+      end
 
+      def cancel_order(order_id)
+        Client::OrderRequest.cancel_order(order_id)
       end
 
       def get_shipping_info(order_ids, options = {})
-
+        Client::ShipmentRequest.get_shipping_info(order_ids, options = {})
       end
 
     end # end for class Client
