@@ -13,7 +13,15 @@ module CafePress
 
         def create_order(order_hash, options = {})
           @options = options
-          client = Savon.client(wsdl: end_point, log_level: :debug, log: true, convert_request_keys_to: :camelcase, pretty_print_xml: true)
+          client = Savon.client(wsdl: end_point,
+                                log_level: :debug,
+                                log: true,
+                                convert_request_keys_to: :camelcase,
+                                pretty_print_xml: true,
+                                namespaces: {
+                                   'xmlns:caf' => "http://Cafepress.com/"
+                                  },
+                                )
           puts client.call(:create_order, message: order_hash)
         end
 
