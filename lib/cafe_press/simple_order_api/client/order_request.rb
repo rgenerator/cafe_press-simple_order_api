@@ -5,7 +5,6 @@ module CafePress
   module SimpleOrderAPI
     class Client
       class OrderRequest
-        HEADERS = { 'Content-Type' => 'application/xml' }
         attr_accessor :partner_id, :order, :shipping_address, :line_items, :options
 
         def initialize(partner_id)
@@ -14,8 +13,8 @@ module CafePress
 
         def create_order(order_hash, options = {})
           @options = options
-          client = Savon.client(wsdl: end_point, log_level: :info, log: true, convert_request_keys_to: :camelcase, pretty_print_xml: true)
-          client.call(:create_order, message: order_hash)
+          client = Savon.client(wsdl: end_point, log_level: :debug, log: true, convert_request_keys_to: :camelcase, pretty_print_xml: true)
+          puts client.call(:create_order, message: order_hash)
         end
 
         def cancel_order(order_id)
