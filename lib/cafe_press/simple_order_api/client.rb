@@ -9,7 +9,7 @@ module CafePress
         @savon_client = Savon.client(wsdl: end_point(options),
                                 log_level: :debug,
                                 log: true,
-                                convert_request_keys_to: :camelcase,
+                                convert_request_keys_to: :none,
                                 pretty_print_xml: true,
                                 namespaces: {
                                    'xmlns:caf' => "http://Cafepress.com/"
@@ -18,7 +18,7 @@ module CafePress
       end
 
       def create_order(order_hash)
-        @savon_client.call(:create_order, order_hash)
+        @savon_client.call(:create_order, message: order_hash)
       end
 
       def get_order_status(order_id)
