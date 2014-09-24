@@ -2,19 +2,18 @@ require 'cafe_press/simple_order_api'
 module CafePress
   module SimpleOrderAPI
     class Client
-      attr_accessor :partner_id,:savon_client
+      attr_accessor :partner_id, :savon_client
+
 
       def initialize(partner_id, options = {})
         @partner_id = partner_id
-        @savon_client = Savon.client(wsdl: end_point(options),
-                                log_level: :debug,
-                                log: true,
-                                convert_request_keys_to: :none,
-                                pretty_print_xml: true,
-                                namespaces: {
-                                   'xmlns:caf' => "http://Cafepress.com/"
-                                  },
-                               )
+
+        options = options.dup
+        if options.delete(:debug)
+          options.merge!(log: true, log_level: :debug, pretty_print_xml: true)
+        end
+
+        @savon_client = Savon.client(wsdl: end_point(options), convert_request_keys_to: :camelcase)
       end
 
       def create_order(order_hash)
