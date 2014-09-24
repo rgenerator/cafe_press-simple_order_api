@@ -34,8 +34,8 @@ module CafePress
       end
 
       private
-      def end_point
-          if @options[:live]
+      def end_point(options = {})
+          if options[:live]
             CafePress::SimpleOrderAPI::LIVE_ENDPOINT
           else
             CafePress::SimpleOrderAPI::TEST_ENDPOINT
