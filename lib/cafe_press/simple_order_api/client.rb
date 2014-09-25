@@ -21,22 +21,22 @@ module CafePress
         @savon_client.call(:create_order, message: build_order_hash)
       end
 
-      def get_order_by_secondary_identifier(identification_code, order_id)
+      def get_order_by_secondary_identifier(identification_code, order_id, options = {})
       	hash = {:IdentifierCode => identification_code, :PartnerID => @partner_id, Identifier => order_id }
         @savon_client.call(:get_order_by_secondary_identifier,:message => hash)
       end
 
-      def cancel_order(cafe_press_order_id)
+      def cancel_order(cafe_press_order_id, options = {})
         hash = {:SalesOrderNo => cafe_press_order_id, :PartnerID => @partner_id }
         @savon_client.call(:cancel_cp_sales_order, message: hash)
       end
 
-      def get_order_status(cafe_press_order_id)
+      def get_order_status(cafe_press_order_id, options = {})
         hash = {:OrderNo => cafe_press_order_id, :PartnerID => @partner_id }
         puts client.call(:get_cp_sales_order_status,:message=> hash)
       end
 
-      def get_shipping_info(cafe_press_order_id)
+      def get_shipping_info(cafe_press_order_id, options = {})
         hash = {:SalesOrderNo => cafe_press_order_id, :PartnerID => @partner_id }
         @savon_client.call(:cancel_cp_sales_order, message: hash)
       end
