@@ -2,16 +2,6 @@ require 'cafe_press/simple_order_api'
 module CafePress
   module SimpleOrderAPI
     class Client
-      attr_accessor :partner_id, :savon_client,:order, :shipping_address, :line_items
-
-      # We want camelcase translation for 98% of keys. The other
-      # 2% result in the incorrect names so we translate them ourselves.
-      # Saxon will not translate string keys.
-      @@key_conversions = {
-        :product_id      => 'ProductID',
-        :country_code    => 'CountryCodeISO',
-        :billing_address => 'OptionalBillingAddressOverride'
-      }
 
       def initialize(partner_id, options = {})
         @partner_id = partner_id
@@ -21,7 +11,7 @@ module CafePress
           options.merge!(log: true, log_level: :debug, pretty_print_xml: true)
         end
 
-        @savon_client = Savon.client(wsdl: end_point(options), convert_request_keys_to: :camelcase)
+        @savon_client = Savon.client(wsdl: end_point(options), convert_request_keys_to: :none)
       end
 
       def create_order(order_id, shipping_address, line_items, options = {})
@@ -32,7 +22,7 @@ module CafePress
         @savon_client.call(:create_order, message: include_partner_id(build_order_hash))
       end
 
-      def get_order_by_secondary_identifier(identification_hash)
+      def get_order_by_secondary_identifier(identification_code)
         @savon_client.call(:get_order_by_secondary_identifier, message: identification_hash)
       end
 
@@ -101,7 +91,7 @@ module CafePress
       end
 
       def cafe_press_order_information
-        requires!(shipping_address, :shipping_cost, :tax, :total, :state)
+        requires!(@shipping_address, :shipping_cost, :tax, :total, :state)
         hash = {}
         hash[:ord] = {}
         hash[:PartnerID] = @partner_id
