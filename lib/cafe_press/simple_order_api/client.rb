@@ -4,6 +4,14 @@ module CafePress
     class Client
       attr_accessor :partner_id, :savon_client
 
+      # We want camelcase translation for 98% of keys. The other
+      # 2% result in the incorrect names so we translate them ourselves.
+      # Saxon will not translate string keys.
+      @@key_conversions = {
+        :product_id      => 'ProductID',
+        :country_code    => 'CountryCodeISO',
+        :billing_address => 'OptionalBillingAddressOverride'
+      }
 
       def initialize(partner_id, options = {})
         @partner_id = partner_id
@@ -17,6 +25,7 @@ module CafePress
       end
 
       def create_order(order_hash)
+        # customer, order, order_items
         @savon_client.call(:create_order, message: include_partner_id(order_hash))
       end
 
@@ -40,6 +49,9 @@ module CafePress
       end
 
       private
+      def translate_hash(hash)
+      end
+
       def end_point(options = {})
         if options[:live]
           CafePress::SimpleOrderAPI::LIVE_ENDPOINT
