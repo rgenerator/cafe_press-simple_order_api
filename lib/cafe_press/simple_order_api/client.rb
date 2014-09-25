@@ -18,12 +18,12 @@ module CafePress
         @order = options[:order]
         @line_items = line_items
         @shipping_address = shipping_address
-        # customer, order, order_items
-        @savon_client.call(:create_order, message: include_partner_id(build_order_hash))
+        @savon_client.call(:create_order, message: build_order_hash)
       end
 
-      def get_order_by_secondary_identifier(identification_code)
-        @savon_client.call(:get_order_by_secondary_identifier, message: identification_hash)
+      def get_order_by_secondary_identifier(identification_code, order_id)
+      	hash = {:IdentifierCode => identification_code, :PartnerID => @partner_id, Identifier => order_id }
+        @savon_client.call(:get_order_by_secondary_identifier,:message => hash)
       end
 
       def cancel_order(cafe_press_order_id)
@@ -42,9 +42,6 @@ module CafePress
       end
 
       private
-      def translate_hash(hash)
-      end
-
       def end_point(options = {})
         if options[:live]
           CafePress::SimpleOrderAPI::LIVE_ENDPOINT
@@ -108,7 +105,7 @@ module CafePress
         cp_order_information[:ord].merge!({:"ShippingAddress" => cafe_press_shipping_address})
         cp_order_information[:ord].merge!({:"OrderItems" =>  cafe_press_line_items})
         cp_order_information[:ord].merge!({:"SecondaryIdentifiers" =>  secondary_info_hash})
-        cp_order_information
+        include_partner_id(cp_order_information)
       end
 
       def secondary_info_hash
