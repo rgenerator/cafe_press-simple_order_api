@@ -93,7 +93,7 @@ module CafePress
       end
 
       def cafe_press_order_information
-        requires!(@shipping_address, :shipping_cost, :tax, :total, :state)
+        requires!(@order, :shipping_cost, :tax, :total, :state)
 
         hash = {}
         hash[:ord] = {}
