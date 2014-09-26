@@ -1,0 +1,3231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s3="http://api.cafepress.com/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://Cafepress.com/" xmlns:s1="http://CafePress.com/SalesService/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://production.cafepress.com/DefinitionTableCache" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://Cafepress.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://Cafepress.com/">
+      <s:import namespace="http://CafePress.com/SalesService/" />
+      <s:import namespace="http://production.cafepress.com/DefinitionTableCache" />
+      <s:import namespace="http://api.cafepress.com/" />
+      <s:element name="CreateOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ord" type="tns:SimpleCPOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SimpleCPOrder">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:SimpleCPOrderBase">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderItems" type="tns:ArrayOfSimpleCPOrderItem" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderBase" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="OrderTotal" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippingCost" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tax" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ServiceLevelNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarrierOverrideNo" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingAddress" type="tns:SimpleCPAddress" />
+          <s:element minOccurs="0" maxOccurs="1" name="OptionalBillingAddressOverride" type="tns:SimpleCPAddress" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdditionalInfo" type="tns:ArrayOfSimpleAdditionalInfoItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifiers" type="tns:ArrayOfSimpleSecondaryIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryBatchIdentifier" type="tns:SimpleSecondaryBatchIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderComments" type="tns:ArrayOfSimpleComment" />
+          <s:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CountryCodeISO" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PhoneNo" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleAdditionalInfoItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleAdditionalInfoItem" nillable="true" type="tns:SimpleAdditionalInfoItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleAdditionalInfoItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleSecondaryIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleSecondaryIdentifier" nillable="true" type="tns:SimpleSecondaryIdentifier" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleSecondaryIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleSecondaryBatchIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleComment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleComment" nillable="true" type="tns:SimpleComment" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleComment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CommentValue" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CommentAddedOn" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleCPOrderItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPOrderItem" nillable="true" type="tns:SimpleCPOrderItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderItem">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:SimpleCPOrderItemBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProductID" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderItemBase" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifiers" type="tns:ArrayOfSimpleSecondaryIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdditionalInfo" type="tns:ArrayOfSimpleAdditionalInfoItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="Attributes" type="tns:ArrayOfSimpleAttribute" />
+          <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="SizeNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ColorNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleAttribute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleAttribute" nillable="true" type="tns:SimpleAttribute" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleAttribute">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Value" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateOrderResult" type="s1:CreateOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrder2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ord" type="tns:SimpleCPOrder2" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SimpleCPOrder2">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:SimpleCPOrderBase">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderItems" type="tns:ArrayOfSimpleCPOrderItem2" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleCPOrderItem2">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPOrderItem2" nillable="true" type="tns:SimpleCPOrderItem2" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderItem2">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:SimpleCPOrderItemBase">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ProductTypeNo" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Designs" type="tns:ArrayOfSimpleCPOrderItem2Design" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleCPOrderItem2Design">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPOrderItem2Design" nillable="true" type="tns:SimpleCPOrderItem2Design" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderItem2Design">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="DesignID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ImageLocation" type="tns:EnumImageLocation" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="EnumImageLocation">
+        <s:restriction base="s:string">
+          <s:enumeration value="FRONT" />
+          <s:enumeration value="BACK" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="CreateOrder2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateOrder2Result" type="s1:CreateOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrder3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ord" type="tns:SimpleCPOrder3" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SimpleCPOrder3">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:SimpleCPOrderBase">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="OrderItems" type="tns:ArrayOfSimpleCPOrderItem3" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleCPOrderItem3">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPOrderItem3" nillable="true" type="tns:SimpleCPOrderItem3" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderItem3">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Price" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SKU" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifiers" type="tns:ArrayOfSimpleSecondaryIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdditionalInfo" type="tns:ArrayOfSimpleAdditionalInfoItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrder3Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateOrder3Result" type="s1:CreateOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateOrderRedo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="redoOrd" type="tns:SimpleCPOrderRedo" />
+            <s:element minOccurs="0" maxOccurs="1" name="Reason" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="SimpleCPOrderRedo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RedoItems" type="tns:ArrayOfSimpleCPOrderRedoItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleCPOrderRedoItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPOrderRedoItem" nillable="true" type="tns:SimpleCPOrderRedoItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderRedoItem">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProductNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SizeNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ColorNo" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CreateOrderRedoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateOrderRedoResult" type="s1:CreateOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrderResult" type="tns:SimpleCPOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderBySecondaryIdentifier">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdentifierCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrderBySecondaryIdentifierResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrderBySecondaryIdentifierResult" type="tns:SimpleCPOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrdersBySecondaryBatchIdentifier">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdentifierCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOrdersBySecondaryBatchIdentifierResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOrdersBySecondaryBatchIdentifierResult" type="tns:ArrayOfSimpleCPOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfSimpleCPOrder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPOrder" nillable="true" type="tns:SimpleCPOrder" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAvailableSizeColorsForCPProduct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProductNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAvailableSizeColorsForCPProductResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAvailableSizeColorsForCPProductResult" type="tns:ArrayOfColorSize" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfColorSize">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ColorSize" nillable="true" type="tns:ColorSize" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ColorSize">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ColorNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ColorDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SizeNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SizeDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAvailableSizeColorsForProductTypeNo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ProductTypeNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAvailableSizeColorsForProductTypeNoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAvailableSizeColorsForProductTypeNoResult" type="tns:ArrayOfColorSize" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetServiceLevelDef">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetServiceLevelDefResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetServiceLevelDefResult" type="tns:ArrayOfServiceLevel" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfServiceLevel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ServiceLevel" nillable="true" type="s2:ServiceLevel" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetProductTypeNoDef">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetProductTypeNoDefResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetProductTypeNoDefResult" type="tns:ArrayOfProductTypeDef_Record" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfProductTypeDef_Record">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ProductTypeDef_Record" nillable="true" type="tns:ProductTypeDef_Record" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProductTypeDef_Record">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProductTypeNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="CancelCPSalesOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelCPSalesOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CancelCPSalesOrderResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelCPSalesOrderByPartner">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="CancelComment" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CancelCPSalesOrderByPartnerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CancelCPSalesOrderByPartnerResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShipmentInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetShipmentInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetShipmentInfoResult" type="tns:ShippingInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ShippingInfo">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ShippingInformation" />
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="GetCPSalesOrderStatus">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="OrderNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCPSalesOrderStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCPSalesOrderStatusResult" type="s1:SimpleCPOrderStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCPSalesOrderStatusDef">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetCPSalesOrderStatusDefResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCPSalesOrderStatusDefResult" type="tns:ArrayOfCpStatusDef" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCpStatusDef">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="cpStatusDef" nillable="true" type="s3:cpStatusDef" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetEnabledProducts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetEnabledProductsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetEnabledProductsResult" type="tns:ArrayOfCPProductType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCPProductType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CPProductType" nillable="true" type="tns:CPProductType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CPProductType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CPProductTypeNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCPColorDef">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCPColorDefResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCPColorDefResult" type="tns:ArrayOfCPColor" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCPColor">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CPColor" nillable="true" type="tns:CPColor" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CPColor">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CPColorNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CPColorDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetCPSizeDef">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetCPSizeDefResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetCPSizeDefResult" type="tns:ArrayOfCPSize" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfCPSize">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CPSize" nillable="true" type="tns:CPSize" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CPSize">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CPSizeNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CPSizeDescription" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetImageStatusReasonDef">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetImageStatusReasonDefResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetImageStatusReasonDefResult" type="tns:ArrayOfImageStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfImageStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ImageStatus" nillable="true" type="s1:ImageStatus" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetPendedImages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPendedImagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPendedImagesResult" type="tns:ArrayOfRejectedImage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRejectedImage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RejectedImage" nillable="true" type="tns:RejectedImage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RejectedImage">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ImageNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RejectReasonNo" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RejectReason" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ProcessPendedImages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="ImageNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcessPendedImagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcessPendedImagesResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOustandingSalesOrders">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOustandingSalesOrdersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOustandingSalesOrdersResult" type="tns:ArrayOfInt" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfInt">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="int" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetOustandingRejectedOrders">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOustandingRejectedOrdersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOustandingRejectedOrdersResult" type="tns:ArrayOfRejectedOrder" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRejectedOrder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RejectedOrder" nillable="true" type="tns:RejectedOrder" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RejectedOrder">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RejectReasonNo" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RejectReason" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetOustandingRejectedProducts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOustandingRejectedProductsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOustandingRejectedProductsResult" type="tns:ArrayOfRejectedProduct" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRejectedProduct">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RejectedProduct" nillable="true" type="tns:RejectedProduct" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RejectedProduct">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ProductNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="RejectReasonNo" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="RejectReason" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="DeleteOustandingSalesOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="salesOrderNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteOustandingSalesOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteOustandingSalesOrderResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptOustandingRejectedOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="salesOrderNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptOustandingRejectedOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AcceptOustandingRejectedOrderResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptOustandingRejectedProduct">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PartnerID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="productNo" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AcceptOustandingRejectedProductResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AcceptOustandingRejectedProductResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogError">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="className" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="methodName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errMessage" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LogErrorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="LogErrorResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SimpleCPOrder" nillable="true" type="tns:SimpleCPOrder" />
+      <s:element name="ArrayOfSimpleCPOrder" nillable="true" type="tns:ArrayOfSimpleCPOrder" />
+      <s:element name="ArrayOfColorSize" nillable="true" type="tns:ArrayOfColorSize" />
+      <s:element name="ArrayOfServiceLevel" nillable="true" type="tns:ArrayOfServiceLevel" />
+      <s:element name="ArrayOfProductTypeDef_Record" nillable="true" type="tns:ArrayOfProductTypeDef_Record" />
+      <s:element name="boolean" type="s:boolean" />
+      <s:element name="ShippingInfo" nillable="true" type="tns:ShippingInfo" />
+      <s:element name="SimpleCPOrderStatus" nillable="true" type="s1:SimpleCPOrderStatus" />
+      <s:element name="ArrayOfCpStatusDef" nillable="true" type="tns:ArrayOfCpStatusDef" />
+      <s:element name="ArrayOfCPProductType" nillable="true" type="tns:ArrayOfCPProductType" />
+      <s:element name="ArrayOfCPColor" nillable="true" type="tns:ArrayOfCPColor" />
+      <s:element name="ArrayOfCPSize" nillable="true" type="tns:ArrayOfCPSize" />
+      <s:element name="ArrayOfImageStatus" nillable="true" type="tns:ArrayOfImageStatus" />
+      <s:element name="ArrayOfRejectedImage" nillable="true" type="tns:ArrayOfRejectedImage" />
+      <s:element name="ArrayOfInt" nillable="true" type="tns:ArrayOfInt" />
+      <s:element name="ArrayOfRejectedOrder" nillable="true" type="tns:ArrayOfRejectedOrder" />
+      <s:element name="ArrayOfRejectedProduct" nillable="true" type="tns:ArrayOfRejectedProduct" />
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://CafePress.com/SalesService/">
+      <s:complexType name="CreateOrderResult">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ServiceResultOfString">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="orderNo" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="CreatedOrder" type="s1:Order" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ServiceResultOfString">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="timeout" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="success" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="effectRows" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="log" type="s1:LogXML" />
+          <s:element minOccurs="0" maxOccurs="1" name="recieved" type="s1:ArrayOfString" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LogXML">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IsStreamNow" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="logName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="logPath" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="detail" type="s1:ArrayOfLogDetailXML" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLogDetailXML">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="LogDetailXML" nillable="true" type="s1:LogDetailXML" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LogDetailXML">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="id2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="id3" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="timeStamp" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="HostName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IP" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DeleteSecondaryIdentifierResult">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ServiceResultOfString" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="GetOrdersResult">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ServiceResultOfString">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Orders" type="s1:ArrayOfOrder" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfOrder">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Order" nillable="true" type="s1:Order" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Order">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdditionalInfo" type="s1:ArrayOfAdditionalInfoItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="BillingAddress" type="s1:BillingAddress" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarrierOverrideNo" nillable="true" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Charges" type="s1:ArrayOfCharge" />
+          <s:element minOccurs="1" maxOccurs="1" name="ConversionRate" type="s:float" />
+          <s:element minOccurs="0" maxOccurs="1" name="Culture" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Discounts" type="s1:ArrayOfDiscount" />
+          <s:element minOccurs="0" maxOccurs="1" name="GiftWrapInfo" type="s1:GiftWrapInfo" />
+          <s:element minOccurs="1" maxOccurs="1" name="LastStatusChange" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="MemberNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderComments" type="s1:ArrayOfComment" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderItems" type="s1:ArrayOfOrderItem" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderedOn" nillable="true" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="Packages" type="s1:ArrayOfPackage" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentInformation" type="s1:PaymentInfo" />
+          <s:element minOccurs="1" maxOccurs="1" name="SalesChannelNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryBatchIdentifier" type="s1:SecondaryBatchIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifiers" type="s1:ArrayOfSecondaryIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShipType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShippingInformation" type="s1:ShippingInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="SiteNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Status" type="s1:OrderStatus" />
+          <s:element minOccurs="1" maxOccurs="1" name="SubTotal" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tax" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Tax_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Total" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Total_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="TrafficMediumNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrafficSource" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ExtensionDataObject" />
+      <s:complexType name="ArrayOfAdditionalInfoItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AdditionalInfoItem" nillable="true" type="s1:AdditionalInfoItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AdditionalInfoItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BillingAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Other" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfCharge">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Charge" nillable="true" type="s1:Charge" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Charge">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChargeAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChargeAmount_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ChargeType" type="s1:ChargeType" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="ChargeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="GIFT_WRAP" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfDiscount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Discount" nillable="true" type="s1:Discount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Discount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="DiscountAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="DiscountAmount_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="DiscountType" type="s1:DiscountType" />
+          <s:element minOccurs="0" maxOccurs="1" name="DiscountTypeSource" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="DiscountType">
+        <s:restriction base="s:string">
+          <s:enumeration value="COUPON" />
+          <s:enumeration value="OTHER" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="GiftWrapInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="GiftMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GiftWrapCharge" type="s1:Charge" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsGiftWrap" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfComment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Comment" nillable="true" type="s1:Comment" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Comment">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="CommentAddedOn" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="CommentValue" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOrderItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OrderItem" nillable="true" type="s1:OrderItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdditionalInfo" type="s1:ArrayOfAdditionalInfoItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="Attributes" type="s1:ArrayOfOrderItemAttribute" />
+          <s:element minOccurs="1" maxOccurs="1" name="BasePrice" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="BasePrice_USD" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="Book" type="s1:BookInformation" />
+          <s:element minOccurs="0" maxOccurs="1" name="Caption" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ColorNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Discounts" type="s1:ArrayOfDiscount" />
+          <s:element minOccurs="0" maxOccurs="1" name="Email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GiftCertificate" type="s1:OrderItemGiftCertificate" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsGiftWrap" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsSelfBuy" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Medias" type="s1:ArrayOfMediaInformation" />
+          <s:element minOccurs="1" maxOccurs="1" name="MemberNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderLineNo" nillable="true" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrientationNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Partner" type="s1:PartnerInformation" />
+          <s:element minOccurs="0" maxOccurs="1" name="PayoutInformation" type="s1:PayoutInformation" />
+          <s:element minOccurs="1" maxOccurs="1" name="PrintTechTypeNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProductID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ProductTypeNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PurchasePrice" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PurchasePrice_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Quantity" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SalesChannelNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifiers" type="s1:ArrayOfSecondaryIdentifier" />
+          <s:element minOccurs="1" maxOccurs="1" name="SizeNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="StoreID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="StoreNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TrafficMediumNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrafficSource" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="WeightedDiscounts" type="s1:ArrayOfWeightedDiscount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfOrderItemAttribute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OrderItemAttribute" nillable="true" type="s1:OrderItemAttribute" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderItemAttribute">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="AttributeID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AttributeValueID" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BookInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="BindingNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="BindingSizeNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="DocNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="PageCount" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="SizeNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderItemGiftCertificate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="GiftCertificateId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GiftedItems" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderLineNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Recipient" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RecipientEmail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Sender" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMediaInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MediaInformation" nillable="true" type="s1:MediaInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MediaInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="Alignment" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Border" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="CrunchURL" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="MediaNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MediaPlacement" type="s1:enumMediaPlacement" />
+          <s:element minOccurs="1" maxOccurs="1" name="PixelHeight" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PixelLeft" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PixelTop" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="PixelWidth" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Position" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="TnURL" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="enumMediaPlacement">
+        <s:restriction base="s:string">
+          <s:enumeration value="CALENDAR_JANUARY" />
+          <s:enumeration value="CALENDAR_FEBRUARY" />
+          <s:enumeration value="CALENDAR_MARCH" />
+          <s:enumeration value="CALENDAR_APRIL" />
+          <s:enumeration value="CALENDAR_MAY" />
+          <s:enumeration value="CALENDAR_JUNE" />
+          <s:enumeration value="CALENDAR_JULY" />
+          <s:enumeration value="CALENDAR_AUGUST" />
+          <s:enumeration value="CALENDAR_SEPTEMBER" />
+          <s:enumeration value="CALENDAR_OCTOBER" />
+          <s:enumeration value="CALENDAR_NOVEMBER" />
+          <s:enumeration value="CALENDAR_DECEMBER" />
+          <s:enumeration value="NON_IMAGE" />
+          <s:enumeration value="IMAGE_1" />
+          <s:enumeration value="IMAGE_2" />
+          <s:enumeration value="IMAGE_INSERT" />
+          <s:enumeration value="IMAGE_INSERT_FRAME" />
+          <s:enumeration value="CD_BOOKLET_COVER" />
+          <s:enumeration value="CD_BOOKLET_INSIDE_1" />
+          <s:enumeration value="CD_BOOKLET_INSIDE_2" />
+          <s:enumeration value="CD_TRAY_IN" />
+          <s:enumeration value="CD_TRAY_OUT" />
+          <s:enumeration value="BOOK_SPINE_IMAGE" />
+          <s:enumeration value="BOOK_CONTENT_PDF" />
+          <s:enumeration value="AUDIO_FILE" />
+          <s:enumeration value="PERSONALIZED_LABEL" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="PartnerInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProductNo" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PayoutInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="AffiliateCommission" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="AffiliateMarkUpPercentage" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="AffiliateMemberNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="AffiliateRetailPercentage" type="s:double" />
+          <s:element minOccurs="1" maxOccurs="1" name="CommissionMethod" type="s1:COMMISSION_TYPE" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReferralCommission" nillable="true" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="SalesCommissionValue" nillable="true" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="COMMISSION_TYPE">
+        <s:restriction base="s:string">
+          <s:enumeration value="PERCENTAGE" />
+          <s:enumeration value="FIXED_AMOUNT" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfSecondaryIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SecondaryIdentifier" nillable="true" type="s1:SecondaryIdentifier" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SecondaryIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifierCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfWeightedDiscount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="WeightedDiscount" nillable="true" type="s1:WeightedDiscount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="WeightedDiscount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="DiscountType" type="s1:DiscountType" />
+          <s:element minOccurs="0" maxOccurs="1" name="DiscountTypeSource" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="WeightedDiscountAmount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="WeightedDiscountAmount_USD" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPackage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Package" nillable="true" type="s1:Package" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Package">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="ActualWeight" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierDef" type="s1:ShipmentCarrierDef" />
+          <s:element minOccurs="1" maxOccurs="1" name="PackageNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShipWeight" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippedOn" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackingNumber" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShipmentCarrierDef">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarrierNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="EmailDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackingCarrier" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PaymentInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="AuthOrderNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CafeCash" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="CafeCash_USD" type="s:decimal" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChargeTransactionId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CreditCardNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CreditCardSecurityCode" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpirationMonth" type="s1:Month" />
+          <s:element minOccurs="1" maxOccurs="1" name="ExpirationYear" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="GiftCertificate" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="GiftCertificate_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="PaymentTypeNo" type="s1:PaymentType" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="Month">
+        <s:restriction base="s:string">
+          <s:enumeration value="JANUARY" />
+          <s:enumeration value="FEBRUARY" />
+          <s:enumeration value="MARCH" />
+          <s:enumeration value="APRIL" />
+          <s:enumeration value="MAY" />
+          <s:enumeration value="JUNE" />
+          <s:enumeration value="JULY" />
+          <s:enumeration value="AUGUST" />
+          <s:enumeration value="SEPTEMBER" />
+          <s:enumeration value="OCTOBER" />
+          <s:enumeration value="NOVEMBER" />
+          <s:enumeration value="DECEMBER" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PaymentType">
+        <s:restriction base="s:string">
+          <s:enumeration value="CreditCard" />
+          <s:enumeration value="PayPal" />
+          <s:enumeration value="Amazon" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="SecondaryBatchIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SecondaryIdentifierCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShippingInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="Amount" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="Amount_USD" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="ServiceLevelNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="ShipAddress" type="s1:ShippingAddress" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ShippingAddress">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AddressLine2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Country" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Other" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OrderStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="s1:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="orderStatusDesc" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="orderStatusNo" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GetOrderResult">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ServiceResultOfString">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="orderNo" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="Order" type="s1:Order" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ShippingInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SalesOrderNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Packages" type="s1:ArrayOfPackageInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPackageInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PackageInfo" nillable="true" type="s1:PackageInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PackageInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PackageID" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="CarrierNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackingNo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShipDate" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShipWeight" type="s:double" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPOrderStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="OrderNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="OrderStatusNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderStatusDescription" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Packages" type="s1:ArrayOfSimpleCPPackage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSimpleCPPackage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleCPPackage" nillable="true" type="s1:SimpleCPPackage" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SimpleCPPackage">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CarrierNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CarrierDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TrackId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ShippedDt" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ImageStatus">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="imageStatusNo" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="imageStatusReasonNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="reasonDesc" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="caption" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://production.cafepress.com/DefinitionTableCache">
+      <s:complexType name="ServiceLevel">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="serviceLevelNo" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="internalDescription" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="express" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="timeToDeliver" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="OrderAPIName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://api.cafepress.com/">
+      <s:complexType name="cpStatusDef">
+        <s:attribute name="StatusNo" type="s:int" use="required" />
+        <s:attribute name="Description" type="s:string" />
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrder" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrder2SoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrder2" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrder2SoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrder2Response" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrder3SoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrder3" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrder3SoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrder3Response" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrderRedoSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateOrderRedo" />
+  </wsdl:message>
+  <wsdl:message name="CreateOrderRedoSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateOrderRedoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderBySecondaryIdentifierSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrderBySecondaryIdentifier" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderBySecondaryIdentifierSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrderBySecondaryIdentifierResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersBySecondaryBatchIdentifierSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOrdersBySecondaryBatchIdentifier" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersBySecondaryBatchIdentifierSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOrdersBySecondaryBatchIdentifierResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForCPProductSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAvailableSizeColorsForCPProduct" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForCPProductSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAvailableSizeColorsForCPProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForProductTypeNoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAvailableSizeColorsForProductTypeNo" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForProductTypeNoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAvailableSizeColorsForProductTypeNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceLevelDefSoapIn">
+    <wsdl:part name="parameters" element="tns:GetServiceLevelDef" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceLevelDefSoapOut">
+    <wsdl:part name="parameters" element="tns:GetServiceLevelDefResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetProductTypeNoDefSoapIn">
+    <wsdl:part name="parameters" element="tns:GetProductTypeNoDef" />
+  </wsdl:message>
+  <wsdl:message name="GetProductTypeNoDefSoapOut">
+    <wsdl:part name="parameters" element="tns:GetProductTypeNoDefResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelCPSalesOrder" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelCPSalesOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderByPartnerSoapIn">
+    <wsdl:part name="parameters" element="tns:CancelCPSalesOrderByPartner" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderByPartnerSoapOut">
+    <wsdl:part name="parameters" element="tns:CancelCPSalesOrderByPartnerResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetShipmentInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetShipmentInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetShipmentInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetShipmentInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCPSalesOrderStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCPSalesOrderStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusDefSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCPSalesOrderStatusDef" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusDefSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCPSalesOrderStatusDefResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetEnabledProductsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetEnabledProducts" />
+  </wsdl:message>
+  <wsdl:message name="GetEnabledProductsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetEnabledProductsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCPColorDefSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCPColorDef" />
+  </wsdl:message>
+  <wsdl:message name="GetCPColorDefSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCPColorDefResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSizeDefSoapIn">
+    <wsdl:part name="parameters" element="tns:GetCPSizeDef" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSizeDefSoapOut">
+    <wsdl:part name="parameters" element="tns:GetCPSizeDefResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetImageStatusReasonDefSoapIn">
+    <wsdl:part name="parameters" element="tns:GetImageStatusReasonDef" />
+  </wsdl:message>
+  <wsdl:message name="GetImageStatusReasonDefSoapOut">
+    <wsdl:part name="parameters" element="tns:GetImageStatusReasonDefResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPendedImagesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPendedImages" />
+  </wsdl:message>
+  <wsdl:message name="GetPendedImagesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPendedImagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPendedImagesSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcessPendedImages" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPendedImagesSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcessPendedImagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingSalesOrdersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOustandingSalesOrders" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingSalesOrdersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOustandingSalesOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedOrdersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOustandingRejectedOrders" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedOrdersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOustandingRejectedOrdersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedProductsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOustandingRejectedProducts" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedProductsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOustandingRejectedProductsResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOustandingSalesOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteOustandingSalesOrder" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOustandingSalesOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteOustandingSalesOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:AcceptOustandingRejectedOrder" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:AcceptOustandingRejectedOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedProductSoapIn">
+    <wsdl:part name="parameters" element="tns:AcceptOustandingRejectedProduct" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedProductSoapOut">
+    <wsdl:part name="parameters" element="tns:AcceptOustandingRejectedProductResponse" />
+  </wsdl:message>
+  <wsdl:message name="LogErrorSoapIn">
+    <wsdl:part name="parameters" element="tns:LogError" />
+  </wsdl:message>
+  <wsdl:message name="LogErrorSoapOut">
+    <wsdl:part name="parameters" element="tns:LogErrorResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderHttpGetOut">
+    <wsdl:part name="Body" element="tns:SimpleCPOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderBySecondaryIdentifierHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="IdentifierCode" type="s:string" />
+    <wsdl:part name="Identifier" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderBySecondaryIdentifierHttpGetOut">
+    <wsdl:part name="Body" element="tns:SimpleCPOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersBySecondaryBatchIdentifierHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="IdentifierCode" type="s:string" />
+    <wsdl:part name="Identifier" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersBySecondaryBatchIdentifierHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfSimpleCPOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForCPProductHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="ProductNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForCPProductHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfColorSize" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForProductTypeNoHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="ProductTypeNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForProductTypeNoHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfColorSize" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceLevelDefHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceLevelDefHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfServiceLevel" />
+  </wsdl:message>
+  <wsdl:message name="GetProductTypeNoDefHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetProductTypeNoDefHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfProductTypeDef_Record" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderByPartnerHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+    <wsdl:part name="CancelComment" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderByPartnerHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetShipmentInfoHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetShipmentInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:ShippingInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="OrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusHttpGetOut">
+    <wsdl:part name="Body" element="tns:SimpleCPOrderStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusDefHttpGetIn" />
+  <wsdl:message name="GetCPSalesOrderStatusDefHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCpStatusDef" />
+  </wsdl:message>
+  <wsdl:message name="GetEnabledProductsHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetEnabledProductsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCPProductType" />
+  </wsdl:message>
+  <wsdl:message name="GetCPColorDefHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCPColorDefHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCPColor" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSizeDefHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSizeDefHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCPSize" />
+  </wsdl:message>
+  <wsdl:message name="GetImageStatusReasonDefHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetImageStatusReasonDefHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfImageStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetPendedImagesHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetPendedImagesHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRejectedImage" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPendedImagesHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="ImageNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPendedImagesHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingSalesOrdersHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingSalesOrdersHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfInt" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedOrdersHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedOrdersHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRejectedOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedProductsHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedProductsHttpGetOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRejectedProduct" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOustandingSalesOrderHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="salesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOustandingSalesOrderHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedOrderHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="salesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedOrderHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedProductHttpGetIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="productNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedProductHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="LogErrorHttpGetIn">
+    <wsdl:part name="className" type="s:string" />
+    <wsdl:part name="methodName" type="s:string" />
+    <wsdl:part name="errMessage" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LogErrorHttpGetOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderHttpPostOut">
+    <wsdl:part name="Body" element="tns:SimpleCPOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderBySecondaryIdentifierHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="IdentifierCode" type="s:string" />
+    <wsdl:part name="Identifier" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOrderBySecondaryIdentifierHttpPostOut">
+    <wsdl:part name="Body" element="tns:SimpleCPOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersBySecondaryBatchIdentifierHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="IdentifierCode" type="s:string" />
+    <wsdl:part name="Identifier" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOrdersBySecondaryBatchIdentifierHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfSimpleCPOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForCPProductHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="ProductNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForCPProductHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfColorSize" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForProductTypeNoHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="ProductTypeNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableSizeColorsForProductTypeNoHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfColorSize" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceLevelDefHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetServiceLevelDefHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfServiceLevel" />
+  </wsdl:message>
+  <wsdl:message name="GetProductTypeNoDefHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetProductTypeNoDefHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfProductTypeDef_Record" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderByPartnerHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+    <wsdl:part name="CancelComment" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CancelCPSalesOrderByPartnerHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetShipmentInfoHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="SalesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetShipmentInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:ShippingInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="OrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusHttpPostOut">
+    <wsdl:part name="Body" element="tns:SimpleCPOrderStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSalesOrderStatusDefHttpPostIn" />
+  <wsdl:message name="GetCPSalesOrderStatusDefHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCpStatusDef" />
+  </wsdl:message>
+  <wsdl:message name="GetEnabledProductsHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetEnabledProductsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCPProductType" />
+  </wsdl:message>
+  <wsdl:message name="GetCPColorDefHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCPColorDefHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCPColor" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSizeDefHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetCPSizeDefHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfCPSize" />
+  </wsdl:message>
+  <wsdl:message name="GetImageStatusReasonDefHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetImageStatusReasonDefHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfImageStatus" />
+  </wsdl:message>
+  <wsdl:message name="GetPendedImagesHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetPendedImagesHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRejectedImage" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPendedImagesHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="ImageNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="ProcessPendedImagesHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingSalesOrdersHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingSalesOrdersHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfInt" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedOrdersHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedOrdersHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRejectedOrder" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedProductsHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetOustandingRejectedProductsHttpPostOut">
+    <wsdl:part name="Body" element="tns:ArrayOfRejectedProduct" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOustandingSalesOrderHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="salesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="DeleteOustandingSalesOrderHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedOrderHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="salesOrderNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedOrderHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedProductHttpPostIn">
+    <wsdl:part name="PartnerID" type="s:string" />
+    <wsdl:part name="productNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AcceptOustandingRejectedProductHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:message name="LogErrorHttpPostIn">
+    <wsdl:part name="className" type="s:string" />
+    <wsdl:part name="methodName" type="s:string" />
+    <wsdl:part name="errMessage" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LogErrorHttpPostOut">
+    <wsdl:part name="Body" element="tns:boolean" />
+  </wsdl:message>
+  <wsdl:portType name="SimpleCPOrderWSSoap">
+    <wsdl:operation name="CreateOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates an Actual order</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrderSoapIn" />
+      <wsdl:output message="tns:CreateOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrder2">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates an Actual order</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrder2SoapIn" />
+      <wsdl:output message="tns:CreateOrder2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrder3">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates an Actual order</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrder3SoapIn" />
+      <wsdl:output message="tns:CreateOrder3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrderRedo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates a redo Order from a previous order</wsdl:documentation>
+      <wsdl:input message="tns:CreateOrderRedoSoapIn" />
+      <wsdl:output message="tns:CreateOrderRedoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about an order that you've made from Cafepress</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderSoapIn" />
+      <wsdl:output message="tns:GetOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about an order based on the partners identifier</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderBySecondaryIdentifierSoapIn" />
+      <wsdl:output message="tns:GetOrderBySecondaryIdentifierSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about orders based on the partners batch identifier</wsdl:documentation>
+      <wsdl:input message="tns:GetOrdersBySecondaryBatchIdentifierSoapIn" />
+      <wsdl:output message="tns:GetOrdersBySecondaryBatchIdentifierSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all available size and color combinations for a particular Cafepress Product</wsdl:documentation>
+      <wsdl:input message="tns:GetAvailableSizeColorsForCPProductSoapIn" />
+      <wsdl:output message="tns:GetAvailableSizeColorsForCPProductSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all available size and color combinations for a particular Product Type No</wsdl:documentation>
+      <wsdl:input message="tns:GetAvailableSizeColorsForProductTypeNoSoapIn" />
+      <wsdl:output message="tns:GetAvailableSizeColorsForProductTypeNoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all valid Cafepress service levels</wsdl:documentation>
+      <wsdl:input message="tns:GetServiceLevelDefSoapIn" />
+      <wsdl:output message="tns:GetServiceLevelDefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all valid Cafepress Product Type Nos</wsdl:documentation>
+      <wsdl:input message="tns:GetProductTypeNoDefSoapIn" />
+      <wsdl:output message="tns:GetProductTypeNoDefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an Order</wsdl:documentation>
+      <wsdl:input message="tns:CancelCPSalesOrderSoapIn" />
+      <wsdl:output message="tns:CancelCPSalesOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an Order</wsdl:documentation>
+      <wsdl:input message="tns:CancelCPSalesOrderByPartnerSoapIn" />
+      <wsdl:output message="tns:CancelCPSalesOrderByPartnerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets Shipping data for the order</wsdl:documentation>
+      <wsdl:input message="tns:GetShipmentInfoSoapIn" />
+      <wsdl:output message="tns:GetShipmentInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Order Status</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSalesOrderStatusSoapIn" />
+      <wsdl:output message="tns:GetCPSalesOrderStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Order Status Def</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSalesOrderStatusDefSoapIn" />
+      <wsdl:output message="tns:GetCPSalesOrderStatusDefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all enabled products for a partner so they can know what they are allowed to order</wsdl:documentation>
+      <wsdl:input message="tns:GetEnabledProductsSoapIn" />
+      <wsdl:output message="tns:GetEnabledProductsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all Cafepress colors</wsdl:documentation>
+      <wsdl:input message="tns:GetCPColorDefSoapIn" />
+      <wsdl:output message="tns:GetCPColorDefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all Cafepress sizes</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSizeDefSoapIn" />
+      <wsdl:output message="tns:GetCPSizeDefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of images status defs</wsdl:documentation>
+      <wsdl:input message="tns:GetImageStatusReasonDefSoapIn" />
+      <wsdl:output message="tns:GetImageStatusReasonDefSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all pending images for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetPendedImagesSoapIn" />
+      <wsdl:output message="tns:GetPendedImagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all pending images for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:ProcessPendedImagesSoapIn" />
+      <wsdl:output message="tns:ProcessPendedImagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding salesorder numbers for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingSalesOrdersSoapIn" />
+      <wsdl:output message="tns:GetOustandingSalesOrdersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding rejected orders for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingRejectedOrdersSoapIn" />
+      <wsdl:output message="tns:GetOustandingRejectedOrdersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding rejected products for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingRejectedProductsSoapIn" />
+      <wsdl:output message="tns:GetOustandingRejectedProductsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a salesorder from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteOustandingSalesOrderSoapIn" />
+      <wsdl:output message="tns:DeleteOustandingSalesOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a rejected order from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptOustandingRejectedOrderSoapIn" />
+      <wsdl:output message="tns:AcceptOustandingRejectedOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a rejected product from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptOustandingRejectedProductSoapIn" />
+      <wsdl:output message="tns:AcceptOustandingRejectedProductSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Saves an error to the error log table in cppro_partner.</wsdl:documentation>
+      <wsdl:input message="tns:LogErrorSoapIn" />
+      <wsdl:output message="tns:LogErrorSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SimpleCPOrderWSHttpGet">
+    <wsdl:operation name="GetOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about an order that you've made from Cafepress</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderHttpGetIn" />
+      <wsdl:output message="tns:GetOrderHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about an order based on the partners identifier</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderBySecondaryIdentifierHttpGetIn" />
+      <wsdl:output message="tns:GetOrderBySecondaryIdentifierHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about orders based on the partners batch identifier</wsdl:documentation>
+      <wsdl:input message="tns:GetOrdersBySecondaryBatchIdentifierHttpGetIn" />
+      <wsdl:output message="tns:GetOrdersBySecondaryBatchIdentifierHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all available size and color combinations for a particular Cafepress Product</wsdl:documentation>
+      <wsdl:input message="tns:GetAvailableSizeColorsForCPProductHttpGetIn" />
+      <wsdl:output message="tns:GetAvailableSizeColorsForCPProductHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all available size and color combinations for a particular Product Type No</wsdl:documentation>
+      <wsdl:input message="tns:GetAvailableSizeColorsForProductTypeNoHttpGetIn" />
+      <wsdl:output message="tns:GetAvailableSizeColorsForProductTypeNoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all valid Cafepress service levels</wsdl:documentation>
+      <wsdl:input message="tns:GetServiceLevelDefHttpGetIn" />
+      <wsdl:output message="tns:GetServiceLevelDefHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all valid Cafepress Product Type Nos</wsdl:documentation>
+      <wsdl:input message="tns:GetProductTypeNoDefHttpGetIn" />
+      <wsdl:output message="tns:GetProductTypeNoDefHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an Order</wsdl:documentation>
+      <wsdl:input message="tns:CancelCPSalesOrderHttpGetIn" />
+      <wsdl:output message="tns:CancelCPSalesOrderHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an Order</wsdl:documentation>
+      <wsdl:input message="tns:CancelCPSalesOrderByPartnerHttpGetIn" />
+      <wsdl:output message="tns:CancelCPSalesOrderByPartnerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets Shipping data for the order</wsdl:documentation>
+      <wsdl:input message="tns:GetShipmentInfoHttpGetIn" />
+      <wsdl:output message="tns:GetShipmentInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Order Status</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSalesOrderStatusHttpGetIn" />
+      <wsdl:output message="tns:GetCPSalesOrderStatusHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Order Status Def</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSalesOrderStatusDefHttpGetIn" />
+      <wsdl:output message="tns:GetCPSalesOrderStatusDefHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all enabled products for a partner so they can know what they are allowed to order</wsdl:documentation>
+      <wsdl:input message="tns:GetEnabledProductsHttpGetIn" />
+      <wsdl:output message="tns:GetEnabledProductsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all Cafepress colors</wsdl:documentation>
+      <wsdl:input message="tns:GetCPColorDefHttpGetIn" />
+      <wsdl:output message="tns:GetCPColorDefHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all Cafepress sizes</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSizeDefHttpGetIn" />
+      <wsdl:output message="tns:GetCPSizeDefHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of images status defs</wsdl:documentation>
+      <wsdl:input message="tns:GetImageStatusReasonDefHttpGetIn" />
+      <wsdl:output message="tns:GetImageStatusReasonDefHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all pending images for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetPendedImagesHttpGetIn" />
+      <wsdl:output message="tns:GetPendedImagesHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all pending images for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:ProcessPendedImagesHttpGetIn" />
+      <wsdl:output message="tns:ProcessPendedImagesHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding salesorder numbers for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingSalesOrdersHttpGetIn" />
+      <wsdl:output message="tns:GetOustandingSalesOrdersHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding rejected orders for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingRejectedOrdersHttpGetIn" />
+      <wsdl:output message="tns:GetOustandingRejectedOrdersHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding rejected products for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingRejectedProductsHttpGetIn" />
+      <wsdl:output message="tns:GetOustandingRejectedProductsHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a salesorder from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteOustandingSalesOrderHttpGetIn" />
+      <wsdl:output message="tns:DeleteOustandingSalesOrderHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a rejected order from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptOustandingRejectedOrderHttpGetIn" />
+      <wsdl:output message="tns:AcceptOustandingRejectedOrderHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a rejected product from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptOustandingRejectedProductHttpGetIn" />
+      <wsdl:output message="tns:AcceptOustandingRejectedProductHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Saves an error to the error log table in cppro_partner.</wsdl:documentation>
+      <wsdl:input message="tns:LogErrorHttpGetIn" />
+      <wsdl:output message="tns:LogErrorHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="SimpleCPOrderWSHttpPost">
+    <wsdl:operation name="GetOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about an order that you've made from Cafepress</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderHttpPostIn" />
+      <wsdl:output message="tns:GetOrderHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about an order based on the partners identifier</wsdl:documentation>
+      <wsdl:input message="tns:GetOrderBySecondaryIdentifierHttpPostIn" />
+      <wsdl:output message="tns:GetOrderBySecondaryIdentifierHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets the information about orders based on the partners batch identifier</wsdl:documentation>
+      <wsdl:input message="tns:GetOrdersBySecondaryBatchIdentifierHttpPostIn" />
+      <wsdl:output message="tns:GetOrdersBySecondaryBatchIdentifierHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all available size and color combinations for a particular Cafepress Product</wsdl:documentation>
+      <wsdl:input message="tns:GetAvailableSizeColorsForCPProductHttpPostIn" />
+      <wsdl:output message="tns:GetAvailableSizeColorsForCPProductHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all available size and color combinations for a particular Product Type No</wsdl:documentation>
+      <wsdl:input message="tns:GetAvailableSizeColorsForProductTypeNoHttpPostIn" />
+      <wsdl:output message="tns:GetAvailableSizeColorsForProductTypeNoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all valid Cafepress service levels</wsdl:documentation>
+      <wsdl:input message="tns:GetServiceLevelDefHttpPostIn" />
+      <wsdl:output message="tns:GetServiceLevelDefHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all valid Cafepress Product Type Nos</wsdl:documentation>
+      <wsdl:input message="tns:GetProductTypeNoDefHttpPostIn" />
+      <wsdl:output message="tns:GetProductTypeNoDefHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an Order</wsdl:documentation>
+      <wsdl:input message="tns:CancelCPSalesOrderHttpPostIn" />
+      <wsdl:output message="tns:CancelCPSalesOrderHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Cancels an Order</wsdl:documentation>
+      <wsdl:input message="tns:CancelCPSalesOrderByPartnerHttpPostIn" />
+      <wsdl:output message="tns:CancelCPSalesOrderByPartnerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets Shipping data for the order</wsdl:documentation>
+      <wsdl:input message="tns:GetShipmentInfoHttpPostIn" />
+      <wsdl:output message="tns:GetShipmentInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Order Status</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSalesOrderStatusHttpPostIn" />
+      <wsdl:output message="tns:GetCPSalesOrderStatusHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get Order Status Def</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSalesOrderStatusDefHttpPostIn" />
+      <wsdl:output message="tns:GetCPSalesOrderStatusDefHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all enabled products for a partner so they can know what they are allowed to order</wsdl:documentation>
+      <wsdl:input message="tns:GetEnabledProductsHttpPostIn" />
+      <wsdl:output message="tns:GetEnabledProductsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all Cafepress colors</wsdl:documentation>
+      <wsdl:input message="tns:GetCPColorDefHttpPostIn" />
+      <wsdl:output message="tns:GetCPColorDefHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of all Cafepress sizes</wsdl:documentation>
+      <wsdl:input message="tns:GetCPSizeDefHttpPostIn" />
+      <wsdl:output message="tns:GetCPSizeDefHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets a list of images status defs</wsdl:documentation>
+      <wsdl:input message="tns:GetImageStatusReasonDefHttpPostIn" />
+      <wsdl:output message="tns:GetImageStatusReasonDefHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all pending images for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetPendedImagesHttpPostIn" />
+      <wsdl:output message="tns:GetPendedImagesHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all pending images for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:ProcessPendedImagesHttpPostIn" />
+      <wsdl:output message="tns:ProcessPendedImagesHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding salesorder numbers for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingSalesOrdersHttpPostIn" />
+      <wsdl:output message="tns:GetOustandingSalesOrdersHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding rejected orders for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingRejectedOrdersHttpPostIn" />
+      <wsdl:output message="tns:GetOustandingRejectedOrdersHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Gets all outstanding rejected products for a specified partner.</wsdl:documentation>
+      <wsdl:input message="tns:GetOustandingRejectedProductsHttpPostIn" />
+      <wsdl:output message="tns:GetOustandingRejectedProductsHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a salesorder from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteOustandingSalesOrderHttpPostIn" />
+      <wsdl:output message="tns:DeleteOustandingSalesOrderHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a rejected order from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptOustandingRejectedOrderHttpPostIn" />
+      <wsdl:output message="tns:AcceptOustandingRejectedOrderHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes a rejected product from the outstanding table.</wsdl:documentation>
+      <wsdl:input message="tns:AcceptOustandingRejectedProductHttpPostIn" />
+      <wsdl:output message="tns:AcceptOustandingRejectedProductHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Saves an error to the error log table in cppro_partner.</wsdl:documentation>
+      <wsdl:input message="tns:LogErrorHttpPostIn" />
+      <wsdl:output message="tns:LogErrorHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SimpleCPOrderWSSoap" type="tns:SimpleCPOrderWSSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrder">
+      <soap:operation soapAction="http://Cafepress.com/CreateOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrder2">
+      <soap:operation soapAction="http://Cafepress.com/CreateOrder2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrder3">
+      <soap:operation soapAction="http://Cafepress.com/CreateOrder3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrderRedo">
+      <soap:operation soapAction="http://Cafepress.com/CreateOrderRedo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrder">
+      <soap:operation soapAction="http://Cafepress.com/GetOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <soap:operation soapAction="http://Cafepress.com/GetOrderBySecondaryIdentifier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <soap:operation soapAction="http://Cafepress.com/GetOrdersBySecondaryBatchIdentifier" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <soap:operation soapAction="http://Cafepress.com/GetAvailableSizeColorsForCPProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <soap:operation soapAction="http://Cafepress.com/GetAvailableSizeColorsForProductTypeNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <soap:operation soapAction="http://Cafepress.com/GetServiceLevelDef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <soap:operation soapAction="http://Cafepress.com/GetProductTypeNoDef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <soap:operation soapAction="http://Cafepress.com/CancelCPSalesOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <soap:operation soapAction="http://Cafepress.com/CancelCPSalesOrderByPartner" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <soap:operation soapAction="http://Cafepress.com/GetShipmentInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <soap:operation soapAction="http://Cafepress.com/GetCPSalesOrderStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <soap:operation soapAction="http://Cafepress.com/GetCPSalesOrderStatusDef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <soap:operation soapAction="http://Cafepress.com/GetEnabledProducts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <soap:operation soapAction="http://Cafepress.com/GetCPColorDef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <soap:operation soapAction="http://Cafepress.com/GetCPSizeDef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <soap:operation soapAction="http://Cafepress.com/GetImageStatusReasonDef" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <soap:operation soapAction="http://Cafepress.com/GetPendedImages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <soap:operation soapAction="http://Cafepress.com/ProcessPendedImages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <soap:operation soapAction="http://Cafepress.com/GetOustandingSalesOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <soap:operation soapAction="http://Cafepress.com/GetOustandingRejectedOrders" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <soap:operation soapAction="http://Cafepress.com/GetOustandingRejectedProducts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <soap:operation soapAction="http://Cafepress.com/DeleteOustandingSalesOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <soap:operation soapAction="http://Cafepress.com/AcceptOustandingRejectedOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <soap:operation soapAction="http://Cafepress.com/AcceptOustandingRejectedProduct" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <soap:operation soapAction="http://Cafepress.com/LogError" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SimpleCPOrderWSSoap12" type="tns:SimpleCPOrderWSSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateOrder">
+      <soap12:operation soapAction="http://Cafepress.com/CreateOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrder2">
+      <soap12:operation soapAction="http://Cafepress.com/CreateOrder2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrder3">
+      <soap12:operation soapAction="http://Cafepress.com/CreateOrder3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateOrderRedo">
+      <soap12:operation soapAction="http://Cafepress.com/CreateOrderRedo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrder">
+      <soap12:operation soapAction="http://Cafepress.com/GetOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <soap12:operation soapAction="http://Cafepress.com/GetOrderBySecondaryIdentifier" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <soap12:operation soapAction="http://Cafepress.com/GetOrdersBySecondaryBatchIdentifier" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <soap12:operation soapAction="http://Cafepress.com/GetAvailableSizeColorsForCPProduct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <soap12:operation soapAction="http://Cafepress.com/GetAvailableSizeColorsForProductTypeNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <soap12:operation soapAction="http://Cafepress.com/GetServiceLevelDef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <soap12:operation soapAction="http://Cafepress.com/GetProductTypeNoDef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <soap12:operation soapAction="http://Cafepress.com/CancelCPSalesOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <soap12:operation soapAction="http://Cafepress.com/CancelCPSalesOrderByPartner" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <soap12:operation soapAction="http://Cafepress.com/GetShipmentInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <soap12:operation soapAction="http://Cafepress.com/GetCPSalesOrderStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <soap12:operation soapAction="http://Cafepress.com/GetCPSalesOrderStatusDef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <soap12:operation soapAction="http://Cafepress.com/GetEnabledProducts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <soap12:operation soapAction="http://Cafepress.com/GetCPColorDef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <soap12:operation soapAction="http://Cafepress.com/GetCPSizeDef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <soap12:operation soapAction="http://Cafepress.com/GetImageStatusReasonDef" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <soap12:operation soapAction="http://Cafepress.com/GetPendedImages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <soap12:operation soapAction="http://Cafepress.com/ProcessPendedImages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <soap12:operation soapAction="http://Cafepress.com/GetOustandingSalesOrders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <soap12:operation soapAction="http://Cafepress.com/GetOustandingRejectedOrders" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <soap12:operation soapAction="http://Cafepress.com/GetOustandingRejectedProducts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <soap12:operation soapAction="http://Cafepress.com/DeleteOustandingSalesOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <soap12:operation soapAction="http://Cafepress.com/AcceptOustandingRejectedOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <soap12:operation soapAction="http://Cafepress.com/AcceptOustandingRejectedProduct" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <soap12:operation soapAction="http://Cafepress.com/LogError" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SimpleCPOrderWSHttpGet" type="tns:SimpleCPOrderWSHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="GetOrder">
+      <http:operation location="/GetOrder" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <http:operation location="/GetOrderBySecondaryIdentifier" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <http:operation location="/GetOrdersBySecondaryBatchIdentifier" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <http:operation location="/GetAvailableSizeColorsForCPProduct" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <http:operation location="/GetAvailableSizeColorsForProductTypeNo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <http:operation location="/GetServiceLevelDef" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <http:operation location="/GetProductTypeNoDef" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <http:operation location="/CancelCPSalesOrder" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <http:operation location="/CancelCPSalesOrderByPartner" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <http:operation location="/GetShipmentInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <http:operation location="/GetCPSalesOrderStatus" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <http:operation location="/GetCPSalesOrderStatusDef" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <http:operation location="/GetEnabledProducts" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <http:operation location="/GetCPColorDef" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <http:operation location="/GetCPSizeDef" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <http:operation location="/GetImageStatusReasonDef" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <http:operation location="/GetPendedImages" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <http:operation location="/ProcessPendedImages" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <http:operation location="/GetOustandingSalesOrders" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <http:operation location="/GetOustandingRejectedOrders" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <http:operation location="/GetOustandingRejectedProducts" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <http:operation location="/DeleteOustandingSalesOrder" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <http:operation location="/AcceptOustandingRejectedOrder" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <http:operation location="/AcceptOustandingRejectedProduct" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <http:operation location="/LogError" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SimpleCPOrderWSHttpPost" type="tns:SimpleCPOrderWSHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="GetOrder">
+      <http:operation location="/GetOrder" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrderBySecondaryIdentifier">
+      <http:operation location="/GetOrderBySecondaryIdentifier" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOrdersBySecondaryBatchIdentifier">
+      <http:operation location="/GetOrdersBySecondaryBatchIdentifier" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForCPProduct">
+      <http:operation location="/GetAvailableSizeColorsForCPProduct" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAvailableSizeColorsForProductTypeNo">
+      <http:operation location="/GetAvailableSizeColorsForProductTypeNo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetServiceLevelDef">
+      <http:operation location="/GetServiceLevelDef" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProductTypeNoDef">
+      <http:operation location="/GetProductTypeNoDef" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrder">
+      <http:operation location="/CancelCPSalesOrder" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CancelCPSalesOrderByPartner">
+      <http:operation location="/CancelCPSalesOrderByPartner" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetShipmentInfo">
+      <http:operation location="/GetShipmentInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatus">
+      <http:operation location="/GetCPSalesOrderStatus" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSalesOrderStatusDef">
+      <http:operation location="/GetCPSalesOrderStatusDef" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnabledProducts">
+      <http:operation location="/GetEnabledProducts" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPColorDef">
+      <http:operation location="/GetCPColorDef" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCPSizeDef">
+      <http:operation location="/GetCPSizeDef" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetImageStatusReasonDef">
+      <http:operation location="/GetImageStatusReasonDef" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPendedImages">
+      <http:operation location="/GetPendedImages" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcessPendedImages">
+      <http:operation location="/ProcessPendedImages" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingSalesOrders">
+      <http:operation location="/GetOustandingSalesOrders" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedOrders">
+      <http:operation location="/GetOustandingRejectedOrders" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOustandingRejectedProducts">
+      <http:operation location="/GetOustandingRejectedProducts" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteOustandingSalesOrder">
+      <http:operation location="/DeleteOustandingSalesOrder" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedOrder">
+      <http:operation location="/AcceptOustandingRejectedOrder" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptOustandingRejectedProduct">
+      <http:operation location="/AcceptOustandingRejectedProduct" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LogError">
+      <http:operation location="/LogError" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SimpleCPOrderWS">
+    <wsdl:port name="SimpleCPOrderWSSoap" binding="tns:SimpleCPOrderWSSoap">
+      <soap:address location="https://api.cpdcprod.com/SimpleCPOrderWebService/SimpleCPOrderWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SimpleCPOrderWSSoap12" binding="tns:SimpleCPOrderWSSoap12">
+      <soap12:address location="https://api.cpdcprod.com/SimpleCPOrderWebService/SimpleCPOrderWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SimpleCPOrderWSHttpGet" binding="tns:SimpleCPOrderWSHttpGet">
+      <http:address location="https://api.cpdcprod.com/SimpleCPOrderWebService/SimpleCPOrderWS.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SimpleCPOrderWSHttpPost" binding="tns:SimpleCPOrderWSHttpPost">
+      <http:address location="https://api.cpdcprod.com/SimpleCPOrderWebService/SimpleCPOrderWS.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
