@@ -18,26 +18,27 @@ module CafePress
         @order = options[:order]
         @line_items = line_items
         @shipping_address = shipping_address
-        @savon_client.call(:create_order, message: build_order_hash)
+        response = @savon_client.call(:create_order, message: build_order_hash)
+        response[:create_order_response][:create_order_result]
       end
 
       def get_order_by_secondary_identifier(identification_code, order_id, options = {})
-      	hash = {:IdentifierCode => identification_code, :PartnerID => @partner_id, Identifier => order_id }
-        @savon_client.call(:get_order_by_secondary_identifier,:message => hash)
+        hash = { IdentifierCode: identification_code, PartnerID: @partner_id, Identifier: order_id }
+        @savon_client.call(:get_order_by_secondary_identifier, message: hash)
       end
 
       def cancel_order(cafe_press_order_id, options = {})
-        hash = {:SalesOrderNo => cafe_press_order_id, :PartnerID => @partner_id }
+        hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
         @savon_client.call(:cancel_cp_sales_order, message: hash)
       end
 
       def get_order_status(cafe_press_order_id, options = {})
-        hash = {:OrderNo => cafe_press_order_id, :PartnerID => @partner_id }
-        puts client.call(:get_cp_sales_order_status,:message=> hash)
+        hash = { OrderNo: cafe_press_order_id, PartnerID: @partner_id }
+        puts client.call(:get_cp_sales_order_status, message: hash)
       end
 
       def get_shipping_info(cafe_press_order_id, options = {})
-        hash = {:SalesOrderNo => cafe_press_order_id, :PartnerID => @partner_id }
+        hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
         @savon_client.call(:cancel_cp_sales_order, message: hash)
       end
 
@@ -75,6 +76,7 @@ module CafePress
         @line_items.each do |line_item|
           requires!(line_item, :sku, :quantity, :price)
           requires!(line_item[:options], :size_no, :color_no)
+
           line_item_hash = {}
           line_item_hash[:SimpleCPOrderItem]  = {}
           line_item_hash[:SimpleCPOrderItem][:Quantity] = line_item[:quantity]
@@ -89,6 +91,7 @@ module CafePress
 
       def cafe_press_order_information
         requires!(@shipping_address, :shipping_cost, :tax, :total, :state)
+
         hash = {}
         hash[:ord] = {}
         hash[:PartnerID] = @partner_id
@@ -102,15 +105,15 @@ module CafePress
 
       def build_order_hash
         cp_order_information = cafe_press_order_information
-        cp_order_information[:ord].merge!({:"ShippingAddress" => cafe_press_shipping_address})
-        cp_order_information[:ord].merge!({:"OrderItems" =>  cafe_press_line_items})
-        cp_order_information[:ord].merge!({:"SecondaryIdentifiers" =>  secondary_info_hash})
+        cp_order_information[:ord].merge!(ShippingAddress: cafe_press_shipping_address,
+                                          OrderItems: cafe_press_line_items,
+                                          SecondaryIdentifiers:  secondary_info_hash)
         include_partner_id(cp_order_information)
       end
 
       def secondary_info_hash
         hash  = {}
-        hash[:SimpleSecondaryIdentifier] = {:Code => @order[:identification_code], :Identifier => @order[:id]}
+        hash[:SimpleSecondaryIdentifier] = { Code: @order[:identification_code], Identifier: @order[:id] }
         hash
       end
     end # end for class Client
