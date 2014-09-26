@@ -1,7 +1,9 @@
 require 'cafe_press/simple_order_api'
+require 'active_utils'
 module CafePress
   module SimpleOrderAPI
     class Client
+    include ActiveMerchant::RequiresParameters
 
       def initialize(partner_id, options = {})
         @partner_id = partner_id
@@ -19,6 +21,7 @@ module CafePress
         @line_items = line_items
         @shipping_address = shipping_address
         response = @savon_client.call(:create_order, message: build_order_hash)
+        puts response.inspect
         response[:create_order_response][:create_order_result]
       end
 

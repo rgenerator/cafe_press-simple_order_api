@@ -1,3 +1,4 @@
+require 'active_utils'
 module CafePress
   module SimpleOrderAPI
     VERSION = '0.0.1'
