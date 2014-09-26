@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'savon','~> 2.6.0'
+  spec.add_dependency('active_utils', '~> 2.2.0')
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
 end
