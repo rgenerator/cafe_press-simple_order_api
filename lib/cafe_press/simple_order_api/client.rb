@@ -61,7 +61,7 @@ module CafePress
       end
 
       def cafe_press_shipping_address
-        requires!(shipping_address, :name, :address1, :city, :state, :country, :zip)
+        requires!(@shipping_address, :name, :address1, :city, :state, :country, :zip)
         shipping_address_hash = {}
         shipping_address_hash[:Name] = @shipping_address[:name]
         shipping_address_hash[:AddressLine1] = @shipping_address[:address1]
