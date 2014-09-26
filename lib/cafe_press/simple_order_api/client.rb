@@ -11,7 +11,6 @@ module CafePress
         options = options.dup
         options[:wsdl] = end_point(options.delete(:live))
         options[:convert_request_keys_to] = :none
-        options.delete!(:partner_id)
 
         if options.delete(:debug)
           options.merge!(log: true, log_level: :debug, pretty_print_xml: true)
@@ -62,6 +61,7 @@ module CafePress
         unless hash.has_key?(:PartnerID)
           hash[:PartnerID] = @partner_id
         end
+        hash
       end
 
       def cafe_press_shipping_address
