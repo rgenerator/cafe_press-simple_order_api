@@ -9,18 +9,21 @@ module CafePress
         @partner_id = partner_id
 
         options = options.dup
+        options[:wsdl] = end_point(options.delete(:live))
+        options[:convert_request_keys_to] = :none
+
         if options.delete(:debug)
           options.merge!(log: true, log_level: :debug, pretty_print_xml: true)
         end
 
-        @savon_client = Savon.client(wsdl: end_point(options), convert_request_keys_to: :none)
+        @savon_client = Savon.client(options)
       end
 
       def create_order(order_id, shipping_address, line_items, options = {})
         @order = options[:order]
         @line_items = line_items
         @shipping_address = shipping_address
-        response = @savon_client.call(:create_order, message: build_order_hash)
+        puts response = @savon_client.call(:create_order, message: build_order_hash)
         puts response.inspect
         response[:create_order_response][:create_order_result]
       end
@@ -46,8 +49,8 @@ module CafePress
       end
 
       private
-      def end_point(options = {})
-        if options[:live]
+      def end_point(live)
+        if live
           CafePress::SimpleOrderAPI::LIVE_ENDPOINT
         else
           CafePress::SimpleOrderAPI::TEST_ENDPOINT
