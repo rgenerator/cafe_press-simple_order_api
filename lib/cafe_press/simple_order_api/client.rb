@@ -89,8 +89,8 @@ module CafePress
           line_item_hash[:SimpleCPOrderItem][:Quantity] = line_item[:quantity]
           line_item_hash[:SimpleCPOrderItem][:Price] = line_item[:price]
           line_item_hash[:SimpleCPOrderItem][:product_id] = line_item[:sku]
-          line_item_hash[:SimpleCPOrderItem][:color_no] = line_item[:color_no]
-          line_item_hash[:SimpleCPOrderItem][:size_no] = line_item[:size_no]
+          line_item_hash[:SimpleCPOrderItem][:color_no] = line_item[:options][:color_no]
+          line_item_hash[:SimpleCPOrderItem][:size_no] = line_item[:options][:size_no]
           line_items_array << line_item_hash
         end
         line_items_array
