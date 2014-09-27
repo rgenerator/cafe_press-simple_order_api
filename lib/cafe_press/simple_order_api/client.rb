@@ -105,8 +105,10 @@ module CafePress
         hash[:ord][:ShippingCost] = @order[:shipping_cost]
         hash[:ord][:Tax] = @order[:tax]
         hash[:ord][:OrderTotal] = @order[:total]
-        hash[:ord][:ServiceLevelNo] = @order[:service_level_no]
-        hash[:ord][:CarrierOverrideNo] = @order[:carrier_override_no]
+        if @order[:options]
+          hash[:ord][:ServiceLevelNo] = @order[:options][:service_level_no]
+          hash[:ord][:CarrierOverrideNo] = @order[:options][:carrier_override_no]
+        end
         hash
       end
 
