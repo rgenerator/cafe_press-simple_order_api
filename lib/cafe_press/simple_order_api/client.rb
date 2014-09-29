@@ -47,7 +47,7 @@ module CafePress
 
       def get_shipping_info(cafe_press_order_id, options = {})
         hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        response = @savon_client.call(:cancel_cp_sales_order, message: hash)
+        response = @savon_client.call(:get_shipment_info, message: hash)
         response.body[:get_shipment_info_response][:get_shipment_info_result]
       end
 
