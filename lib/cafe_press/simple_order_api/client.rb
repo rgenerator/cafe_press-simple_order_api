@@ -23,9 +23,8 @@ module CafePress
         @order = options[:order]
         @line_items = line_items
         @shipping_address = shipping_address
-        puts response = @savon_client.call(:create_order, message: build_order_hash)
-        puts response.inspect
-        response[:create_order_response][:create_order_result]
+        response = @savon_client.call(:create_order, message: build_order_hash)
+        response.body[:create_order_response][:create_order_result]
       end
 
       def get_order_by_secondary_identifier(identification_code, order_id, options = {})
