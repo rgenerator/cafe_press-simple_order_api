@@ -29,22 +29,26 @@ module CafePress
 
       def get_order_by_secondary_identifier(identification_code, order_id, options = {})
         hash = { IdentifierCode: identification_code, PartnerID: @partner_id, Identifier: order_id }
-        @savon_client.call(:get_order_by_secondary_identifier, message: hash)
+        response = @savon_client.call(:get_order_by_secondary_identifier, message: hash)
+        response.body[:get_order_by_secondary_identifier_response][:get_order_by_secondary_identifier_result]
       end
 
       def cancel_order(cafe_press_order_id, options = {})
         hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        @savon_client.call(:cancel_cp_sales_order, message: hash)
+        response = @savon_client.call(:cancel_cp_sales_order, message: hash)
+        response.body
       end
 
       def get_order_status(cafe_press_order_id, options = {})
         hash = { OrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        puts client.call(:get_cp_sales_order_status, message: hash)
+        response = @savon_client.call(:get_cp_sales_order_status, message: hash)
+        response.body[:get_cp_sales_order_status_response][:get_cp_sales_order_status_result]
       end
 
       def get_shipping_info(cafe_press_order_id, options = {})
         hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        @savon_client.call(:cancel_cp_sales_order, message: hash)
+        response = @savon_client.call(:cancel_cp_sales_order, message: hash)
+        response.body[:get_shipment_info_response][:get_shipment_info_result]
       end
 
       private
