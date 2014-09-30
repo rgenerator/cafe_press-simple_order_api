@@ -18,8 +18,8 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
 
      let(:client){described_class.new(partner_id)}
 
-     context "input parameter validations" do
-       context "create_order method" do
+     context "create_order method" do
+       context "input parameter validations" do
 
          it "should validate order shipping_cost" do
           order[:order].delete(:shipping_cost)
@@ -93,8 +93,33 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
           line_items.first[:options].delete(:color_no)
           expect{client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(ArgumentError,  /Missing required parameter: color_no/)
          end
+       end #end for context "input parameter validations" do
 
+       context "making API call with correct information" do
+         it "should respond with success" do
+           order[:order][:id] = order[:order][:id] + rand(1000000).to_s
+           response = client.create_order(order[:order][:id], shipping_adddress, line_items, order)
+           puts response
+           expect(response).to have_key(:order_no)
+         end
        end
+
+      context "making API call with incorrect information" do
+         it "should respond with error if resend already created order id" do
+           expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/SaveOrderHeaderASSOCIATE_ORDER_WITH_EXTERNAL_SALESORDER_PROVIDERViolation/)
+         end
+
+         it "should respond with error if identification_code is incorrect" do
+         	order[:order].delete(:identification_code)
+          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/VerifyOrderDetails - SecondaryIdentifierCode  is not a valid value/)
+         end
+
+         it "should respond with error if identification_code is incorrect" do
+         	client = described_class.new("incorrect partner id")
+          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/PartnerID does not have access to execute this call./)
+         end
+       end
+
      end
 
 end
