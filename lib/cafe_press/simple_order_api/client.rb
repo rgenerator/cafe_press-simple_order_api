@@ -86,14 +86,12 @@ module CafePress
         @line_items.each do |line_item|
           requires!(line_item, :sku, :quantity, :price)
           requires!(line_item[:options], :size_no, :color_no)
-
           line_item_hash = {}
-          line_item_hash[:SimpleCPOrderItem]  = {}
-          line_item_hash[:SimpleCPOrderItem][:Quantity] = line_item[:quantity]
-          line_item_hash[:SimpleCPOrderItem][:Price] = line_item[:price]
-          line_item_hash[:SimpleCPOrderItem][:ProductID] = line_item[:sku]
-          line_item_hash[:SimpleCPOrderItem][:ColorNo] = line_item[:options][:color_no]
-          line_item_hash[:SimpleCPOrderItem][:SizeNo] = line_item[:options][:size_no]
+          line_item_hash[:Quantity] = line_item[:quantity]
+          line_item_hash[:Price] = line_item[:price]
+          line_item_hash[:ProductID] = line_item[:sku]
+          line_item_hash[:ColorNo] = line_item[:options][:color_no]
+          line_item_hash[:SizeNo] = line_item[:options][:size_no]
           line_items_array << line_item_hash
         end
         line_items_array
@@ -118,8 +116,9 @@ module CafePress
       def build_order_hash
         cp_order_information = cafe_press_order_information
         cp_order_information[:ord].merge!(ShippingAddress: cafe_press_shipping_address,
-                                          OrderItems: cafe_press_line_items,
                                           SecondaryIdentifiers:  secondary_info_hash)
+        cp_order_information[:ord][:OrderItems]  = {}
+        cp_order_information[:ord][:OrderItems][:SimpleCPOrderItem] = cafe_press_line_items
         include_partner_id(cp_order_information)
       end
 
