@@ -84,6 +84,15 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
           expect{client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(ArgumentError,  /Missing required parameter: price/)
          end
 
+         it "should validate line_items options size_no" do
+          line_items.first[:options].delete(:size_no)
+          expect{client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(ArgumentError,  /Missing required parameter: size_no/)
+         end
+
+         it "should validate line_items options color_no" do
+          line_items.first[:options].delete(:color_no)
+          expect{client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(ArgumentError,  /Missing required parameter: color_no/)
+         end
 
        end
      end
