@@ -42,13 +42,13 @@ module CafePress
 
       def get_order_status(cafe_press_order_id, options = {})
         hash = { OrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        response = @savon_client.call(:get_cp_sales_order_status, message: hash)
+        response = send_request(:get_cp_sales_order_status, hash)
         response[:get_cp_sales_order_status_response][:get_cp_sales_order_status_result]
       end
 
       def get_shipping_info(cafe_press_order_id, options = {})
         hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        response = @savon_client.call(:get_shipment_info, message: hash)
+        response = send_request(:get_shipment_info, hash)
         response[:get_shipment_info_response][:get_shipment_info_result]
       end
 
@@ -68,7 +68,7 @@ module CafePress
       end
 
       def send_request(method, message)
-        response = @savon_client.call(method, message: message)
+        puts response = @savon_client.call(method, message: message)
         response.body
       rescue Savon::SOAPFault => e
         raise InvalidRequestError, e.to_s
