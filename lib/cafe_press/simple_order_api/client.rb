@@ -1,10 +1,12 @@
-require 'cafe_press/simple_order_api'
-require 'active_utils'
+require 'savon'
+
 module CafePress
   module SimpleOrderAPI
-    class Client
-    include ActiveMerchant::RequiresParameters
+    Error = Class.new(StandardError)
+    ConnectionError = Class.new(Error)
+    InvalidRequestError = Class.new(Error)
 
+    class Client
       def initialize(partner_id, options = {})
         @partner_id = partner_id
 
@@ -23,41 +25,56 @@ module CafePress
         @order = options[:order]
         @line_items = line_items
         @shipping_address = shipping_address
-        response = @savon_client.call(:create_order, message: build_order_hash)
-        response.body[:create_order_response][:create_order_result]
+        response = send_request(:create_order, build_order_hash)
+        response[:create_order_response][:create_order_result]
       end
 
       def get_order_by_secondary_identifier(identification_code, order_id, options = {})
         hash = { IdentifierCode: identification_code, PartnerID: @partner_id, Identifier: order_id }
-        response = @savon_client.call(:get_order_by_secondary_identifier, message: hash)
-        response.body[:get_order_by_secondary_identifier_response][:get_order_by_secondary_identifier_result]
+        response = send_request(:get_order_by_secondary_identifier, hash)
+        response[:get_order_by_secondary_identifier_response][:get_order_by_secondary_identifier_result]
       end
 
       def cancel_order(cafe_press_order_id, options = {})
         hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
-        response = @savon_client.call(:cancel_cp_sales_order, message: hash)
-        response.body
+        send_request(:cancel_cp_sales_order, hash)
       end
 
       def get_order_status(cafe_press_order_id, options = {})
         hash = { OrderNo: cafe_press_order_id, PartnerID: @partner_id }
         response = @savon_client.call(:get_cp_sales_order_status, message: hash)
-        response.body[:get_cp_sales_order_status_response][:get_cp_sales_order_status_result]
+        response[:get_cp_sales_order_status_response][:get_cp_sales_order_status_result]
       end
 
       def get_shipping_info(cafe_press_order_id, options = {})
         hash = { SalesOrderNo: cafe_press_order_id, PartnerID: @partner_id }
         response = @savon_client.call(:get_shipment_info, message: hash)
-        response.body[:get_shipment_info_response][:get_shipment_info_result]
+        response[:get_shipment_info_response][:get_shipment_info_result]
       end
 
       private
+      def requires!(hash, *keys)
+        keys.each do |key|
+          raise ArgumentError, "Missing required parameter: #{key}" unless hash.include?(key)
+        end
+      end
+
       def end_point(live)
         if live
           CafePress::SimpleOrderAPI::LIVE_ENDPOINT
         else
           CafePress::SimpleOrderAPI::TEST_ENDPOINT
         end
+      end
+
+      def send_request(method, message)
+        response = @savon_client.call(method, message: message)
+        response.body
+      rescue Savon::SOAPFault => e
+        raise InvalidRequestError, e.to_s
+      rescue => e
+        # SystemError, Errno, ...
+        raise ConnectionError, e.to_s
       end
 
       def include_partner_id(hash ={})
@@ -84,7 +101,7 @@ module CafePress
       def cafe_press_line_items
         line_items_array = []
         @line_items.each do |line_item|
-          requires!(line_item, :sku, :quantity, :price)
+          requires!(line_item, :sku, :quantity, :price, :options)
           requires!(line_item[:options], :size_no, :color_no)
           line_item_hash = {}
           line_item_hash[:Quantity] = line_item[:quantity]

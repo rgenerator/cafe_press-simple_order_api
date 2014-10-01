@@ -107,17 +107,17 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
 
       context "making API call with incorrect information" do
          it "should respond with error if resend already created order id" do
-           expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/SaveOrderHeaderASSOCIATE_ORDER_WITH_EXTERNAL_SALESORDER_PROVIDERViolation/)
+           expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(InvalidRequestError, /SaveOrderHeaderASSOCIATE_ORDER_WITH_EXTERNAL_SALESORDER_PROVIDERViolation/)
          end
 
-         it "should respond with error if identification_code is incorrect" do
+         it "should respond with an error if identification_code is incorrect" do
          	order[:order].delete(:identification_code)
-          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/VerifyOrderDetails - SecondaryIdentifierCode  is not a valid value/)
+          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(InvalidRequestError, /VerifyOrderDetails - SecondaryIdentifierCode  is not a valid value/)
          end
 
-         it "should respond with error if identification_code is incorrect" do
+         it "should respond with an error if identification_code is incorrect" do
          	client = described_class.new("incorrect partner id")
-          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/PartnerID does not have access to execute this call./)
+          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(InvalidRequestError, /PartnerID does not have access to execute this call./)
          end
        end # end for context "making API call with incorrect information" do
      end # end for context "create_order method" do
