@@ -16,6 +16,7 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
        {:order => {:id=>"EB68E2B6BF1", :identification_code=>"GNTR", :shipping_cost=>"3.98", :tax=>"1.50", :total=>"18.47", :options=>{:service_level_no=>"0", :carrier_override_no=>"0"}}}
      end
 
+     let(:already_created_order_id){'639245AFBB47'}
      let(:client){described_class.new(partner_id)}
 
      context "create_order method" do
@@ -118,8 +119,18 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
          	client = described_class.new("incorrect partner id")
           expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(Savon::SOAPFault,/PartnerID does not have access to execute this call./)
          end
-       end
+       end # end for context "making API call with incorrect information" do
+     end # end for context "create_order method" do
 
-     end
+  context "get_order_by_secondary_identifier" do
+    it "should respond with the correct order information" do
+      response = client.get_order_by_secondary_identifier(order[:order][:identification_code], already_created_order_id)
+      expect(response[:secondary_identifiers][:simple_secondary_identifier][:identifier]).to eql(already_created_order_id)
+    end
 
+    it "should respond with error the if correct order information is supplied" do
+      response = client.get_order_by_secondary_identifier(order[:order][:identification_code], rand(100000000))
+      expect(response[:secondary_identifiers][:simple_secondary_identifier][:identifier]).to eql(already_created_order_id)
+    end
+  end
 end
