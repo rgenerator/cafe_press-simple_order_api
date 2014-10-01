@@ -16,6 +16,7 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
      end
 
      let(:already_created_order_id){'639245AFBB47'}
+     let(:order_in_production_id){238206669}
      let(:client){described_class.new(partner_id)}
 
      context "create_order method" do
@@ -131,4 +132,19 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
       expect {client.get_order_by_secondary_identifier(order[:order][:identification_code], rand(100000000))}.to raise_error(CafePress::SimpleOrderAPI::InvalidRequestError, /Object reference not set to an instance of an object/)
     end
   end
+
+  context "get_order_status" do
+    it "should get information about order which is in production" do
+      response = client.get_order_status(order_in_production_id)
+      puts response.inspect
+      expect(response[:order_no]).to eql(order_in_production_id.to_s)
+      expect(response[:order_status_no]).to eql('7')
+      expect(response[:order_status_description]).to eql('Production')
+    end
+
+    it "should respond with error the if incorrect order information is supplied" do
+      expect {client.get_order_status(rand(100000000))}.to raise_error(CafePress::SimpleOrderAPI::InvalidRequestError, /Record not found for OrderSqlHandler/)
+    end
+  end
+
 end
