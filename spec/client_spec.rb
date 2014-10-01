@@ -147,4 +147,18 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
     end
   end
 
+  context "get_shipping_info" do
+    it "should get shipping_adddressing information about order which is in production" do
+      response = client.get_shipping_info(order_in_production_id)
+      expect(response[:sales_order_no]).to eql(order_in_production_id.to_s)
+      expect(response[:packages][:package_info][:package_id]).to eql('1')
+      expect(response[:packages][:package_info][:carrier_no]).to eql('0')
+      expect(response[:packages][:package_info][:carrier_name]).to eql('TANDATA_USPS.USPS')
+      expect(response[:packages][:package_info][:carrier_desc]).to eql('USPS First-Class Mail')
+      expect(response[:packages][:package_info][:ship_date]).to be_an_instance_of(DateTime)
+    end
+  end
+
+
+
 end
