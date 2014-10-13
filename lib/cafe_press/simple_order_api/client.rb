@@ -69,8 +69,6 @@ module CafePress
       end
 
       def send_request(method, message)
-        require "pp"
-        pp message
         response = @savon_client.call(method, message: message)
         response.body
       rescue Savon::SOAPFault => e
@@ -149,8 +147,8 @@ module CafePress
       def secondary_info_hash
         hash = {}
         hash[:Code] = @order[:identification_code] if @order.include?(:identification_code)
-        hash[:Identifier] = @order[:id] if @order.include?(:id) 
-       
+        hash[:Identifier] = @order[:id] if @order.include?(:id)
+
         hash.empty? ? hash : { :SimpleSecondaryIdentifier => hash }
       end
     end # end for class Client
