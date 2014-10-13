@@ -17,7 +17,7 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
 
      let(:already_created_order_id){'639245AFBB47'}
      let(:order_in_production_id){238206669}
-     let(:client){described_class.new(partner_id)}
+     let(:client){ described_class.new(partner_id, :test => true) }
 
      context "create_order method" do
        context "input parameter validations" do
@@ -100,7 +100,6 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
          it "should respond with success" do
            order[:order][:id] = order[:order][:id] + rand(1000000).to_s
            response = client.create_order(order[:order][:id], shipping_adddress, line_items, order)
-           puts response
            expect(response).to have_key(:order_no)
          end
        end
@@ -112,7 +111,7 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
 
          it "should respond with an error if identification_code is incorrect" do
          	order[:order].delete(:identification_code)
-          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(CafePress::SimpleOrderAPI::InvalidRequestError, /VerifyOrderDetails - SecondaryIdentifierCode  is not a valid value/)
+          expect {client.create_order(order[:id], shipping_adddress, line_items, order)}.to raise_error(CafePress::SimpleOrderAPI::InvalidRequestError, /SecondaryIdentifierCode\s+is not a valid value/)
          end
 
          it "should respond with an error if identification_code is incorrect" do
@@ -129,14 +128,13 @@ RSpec.describe CafePress::SimpleOrderAPI::Client do
     end
 
     it "should respond with error the if incorrect order information is supplied" do
-      expect {client.get_order_by_secondary_identifier(order[:order][:identification_code], rand(100000000))}.to raise_error(CafePress::SimpleOrderAPI::InvalidRequestError, /Object reference not set to an instance of an object/)
+      expect { client.get_order_by_secondary_identifier(order[:order][:identification_code], rand(100000000)) }.to raise_error(CafePress::SimpleOrderAPI::InvalidRequestError, /Object reference not set to an instance of an object/)
     end
   end
 
   context "get_order_status" do
     it "should get information about order which is in production" do
       response = client.get_order_status(order_in_production_id)
-      puts response.inspect
       expect(response[:order_no]).to eql(order_in_production_id.to_s)
       expect(response[:order_status_no]).to eql('7')
       expect(response[:order_status_description]).to eql('Production')

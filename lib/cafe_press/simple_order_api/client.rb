@@ -11,7 +11,7 @@ module CafePress
         @partner_id = partner_id
 
         options = options.dup
-        options[:wsdl] = end_point(options.delete(:live))
+        options[:wsdl] = endpoint(options.delete(:test))
         options[:convert_request_keys_to] = :none
 
         if options.delete(:debug)
@@ -59,11 +59,11 @@ module CafePress
         end
       end
 
-      def end_point(live)
-        if live
-          CafePress::SimpleOrderAPI::LIVE_ENDPOINT
-        else
+      def endpoint(test)
+        if test
           CafePress::SimpleOrderAPI::TEST_ENDPOINT
+        else
+          CafePress::SimpleOrderAPI::LIVE_ENDPOINT
         end
       end
 
