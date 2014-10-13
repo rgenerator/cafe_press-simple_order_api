@@ -9,6 +9,7 @@ module CafePress
     class Client
       def initialize(partner_id, options = {})
         @partner_id = partner_id
+        raise ArgumentError, 'partner_id is required' unless @partner_id
 
         options = options.dup
         options[:wsdl] = endpoint(options.delete(:test))
