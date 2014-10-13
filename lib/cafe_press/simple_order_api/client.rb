@@ -69,7 +69,9 @@ module CafePress
       end
 
       def send_request(method, message)
-        puts response = @savon_client.call(method, message: message)
+        require "pp"
+        pp message
+        response = @savon_client.call(method, message: message)
         response.body
       rescue Savon::SOAPFault => e
         raise InvalidRequestError, e.to_s
@@ -116,6 +118,7 @@ module CafePress
       end
 
       def cafe_press_order_information
+        # TODO: service_level_number too
         requires!(@order, :shipping_cost, :tax, :total)
 
         hash = {}
@@ -133,17 +136,22 @@ module CafePress
 
       def build_order_hash
         cp_order_information = cafe_press_order_information
-        cp_order_information[:ord].merge!(ShippingAddress: cafe_press_shipping_address,
-                                          SecondaryIdentifiers:  secondary_info_hash)
+        cp_order_information[:ord].merge!(ShippingAddress: cafe_press_shipping_address)
+
+        hash = secondary_info_hash
+        cp_order_information[:ord][:SecondaryIdentifiers] = hash unless hash.empty?
+
         cp_order_information[:ord][:OrderItems]  = {}
         cp_order_information[:ord][:OrderItems][:SimpleCPOrderItem] = cafe_press_line_items
         include_partner_id(cp_order_information)
       end
 
       def secondary_info_hash
-        hash  = {}
-        hash[:SimpleSecondaryIdentifier] = { Code: @order[:identification_code], Identifier: @order[:id] }
-        hash
+        hash = {}
+        hash[:Code] = @order[:identification_code] if @order.include?(:identification_code)
+        hash[:Identifier] = @order[:id] if @order.include?(:id) 
+       
+        hash.empty? ? hash : { :SimpleSecondaryIdentifier => hash }
       end
     end # end for class Client
   end # end for module EZP
