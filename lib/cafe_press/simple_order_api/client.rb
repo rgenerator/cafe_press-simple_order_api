@@ -1,4 +1,5 @@
 require 'savon'
+require 'savon/soap_fault'
 
 module CafePress
   module SimpleOrderAPI
@@ -74,7 +75,7 @@ module CafePress
       rescue Savon::SOAPFault => e
         raise InvalidRequestError, e.to_s
       rescue => e
-        # SystemError, Errno, ...
+        # Savon::HTTPError, but do these slip through: SystemError, Errno, ..?
         raise ConnectionError, e.to_s
       end
 
@@ -102,14 +103,18 @@ module CafePress
       def cafe_press_line_items
         line_items_array = []
         @line_items.each do |line_item|
-          requires!(line_item, :sku, :quantity, :price, :options)
-          requires!(line_item[:options], :size_no, :color_no)
-          line_item_hash = {}
-          line_item_hash[:Quantity] = line_item[:quantity]
-          line_item_hash[:Price] = line_item[:price]
-          line_item_hash[:ProductID] = line_item[:sku]
-          line_item_hash[:ColorNo] = line_item[:options][:color_no]
-          line_item_hash[:SizeNo] = line_item[:options][:size_no]
+          requires!(line_item, :sku, :quantity, :price)
+
+          line_item_hash = {
+            Quantity:  line_item[:quantity],
+            Price:     line_item[:price],
+            ProductID: line_item[:sku],
+          }
+
+          options = line_item[:options] || {}
+          line_item_hash[:ColorNo] = options[:color_no] || 0
+          line_item_hash[:SizeNo]  = options[:size_no]  || 0
+
           line_items_array << line_item_hash
         end
         line_items_array
