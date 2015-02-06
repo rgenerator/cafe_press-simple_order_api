@@ -4,7 +4,7 @@ CafePress EZ Prints API client and event parser
 
 ## Overview
 ```
-    require 'cafe_press/simple_order_api/client'
+    require 'cafe_press/simple_order_api'
 
     client = Client.new(partner_id, options = {})
     id = client.create_order(order_id, shipping_address, line_items, options = {})

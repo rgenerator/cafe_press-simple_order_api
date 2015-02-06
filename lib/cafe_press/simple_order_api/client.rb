@@ -1,4 +1,5 @@
 require 'savon'
+require 'savon/soap_fault'
 
 module CafePress
   module SimpleOrderAPI
@@ -9,9 +10,10 @@ module CafePress
     class Client
       def initialize(partner_id, options = {})
         @partner_id = partner_id
+        raise ArgumentError, 'partner_id is required' unless @partner_id
 
         options = options.dup
-        options[:wsdl] = end_point(options.delete(:live))
+        options[:wsdl] = endpoint(options.delete(:test))
         options[:convert_request_keys_to] = :none
 
         if options.delete(:debug)
@@ -59,21 +61,21 @@ module CafePress
         end
       end
 
-      def end_point(live)
-        if live
-          CafePress::SimpleOrderAPI::LIVE_ENDPOINT
-        else
+      def endpoint(test)
+        if test
           CafePress::SimpleOrderAPI::TEST_ENDPOINT
+        else
+          CafePress::SimpleOrderAPI::LIVE_ENDPOINT
         end
       end
 
       def send_request(method, message)
-        puts response = @savon_client.call(method, message: message)
+        response = @savon_client.call(method, message: message)
         response.body
       rescue Savon::SOAPFault => e
         raise InvalidRequestError, e.to_s
       rescue => e
-        # SystemError, Errno, ...
+        # Savon::HTTPError, but do these slip through: SystemError, Errno, ..?
         raise ConnectionError, e.to_s
       end
 
@@ -101,20 +103,25 @@ module CafePress
       def cafe_press_line_items
         line_items_array = []
         @line_items.each do |line_item|
-          requires!(line_item, :sku, :quantity, :price, :options)
-          requires!(line_item[:options], :size_no, :color_no)
-          line_item_hash = {}
-          line_item_hash[:Quantity] = line_item[:quantity]
-          line_item_hash[:Price] = line_item[:price]
-          line_item_hash[:ProductID] = line_item[:sku]
-          line_item_hash[:ColorNo] = line_item[:options][:color_no]
-          line_item_hash[:SizeNo] = line_item[:options][:size_no]
+          requires!(line_item, :sku, :quantity, :price)
+
+          line_item_hash = {
+            Quantity:  line_item[:quantity],
+            Price:     line_item[:price],
+            ProductID: line_item[:sku],
+          }
+
+          options = line_item[:options] || {}
+          line_item_hash[:ColorNo] = options[:color_no] || 0
+          line_item_hash[:SizeNo]  = options[:size_no]  || 0
+
           line_items_array << line_item_hash
         end
         line_items_array
       end
 
       def cafe_press_order_information
+        # TODO: service_level_number too
         requires!(@order, :shipping_cost, :tax, :total)
 
         hash = {}
@@ -132,17 +139,22 @@ module CafePress
 
       def build_order_hash
         cp_order_information = cafe_press_order_information
-        cp_order_information[:ord].merge!(ShippingAddress: cafe_press_shipping_address,
-                                          SecondaryIdentifiers:  secondary_info_hash)
+        cp_order_information[:ord].merge!(ShippingAddress: cafe_press_shipping_address)
+
+        hash = secondary_info_hash
+        cp_order_information[:ord][:SecondaryIdentifiers] = hash unless hash.empty?
+
         cp_order_information[:ord][:OrderItems]  = {}
         cp_order_information[:ord][:OrderItems][:SimpleCPOrderItem] = cafe_press_line_items
         include_partner_id(cp_order_information)
       end
 
       def secondary_info_hash
-        hash  = {}
-        hash[:SimpleSecondaryIdentifier] = { Code: @order[:identification_code], Identifier: @order[:id] }
-        hash
+        hash = {}
+        hash[:Code] = @order[:identification_code] if @order.include?(:identification_code)
+        hash[:Identifier] = @order[:id] if @order.include?(:id)
+
+        hash.empty? ? hash : { :SimpleSecondaryIdentifier => hash }
       end
     end # end for class Client
   end # end for module EZP
